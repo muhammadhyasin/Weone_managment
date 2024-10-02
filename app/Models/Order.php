@@ -22,7 +22,7 @@ class Order extends Model
         'price',
         'created_by',
         'updated_by',
-        'status',
+        'order_status',
     ];
 
    

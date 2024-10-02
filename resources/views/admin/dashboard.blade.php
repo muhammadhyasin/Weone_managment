@@ -110,36 +110,48 @@
 
                 <h4 class="card-title mb-4">Latest Transactions</h4>
 
-                <div class="table-responsive">
-                    <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Product No</th>
-                                <th>Item Name</th>
-                                <th>Customer Name</th>
-                                <th>Status</th>
-                                <th>Delivery Date</th>
-                                <th style="width: 120px;">Amount</th>
-                            </tr>
-                        </thead><!-- end thead -->
-                        <tbody>
-                            <tr>
-                                <td><h6 class="mb-0">Charles Casey</h6></td>
-                                <td>Web Developer</td>
-                                <td>
-                                    23
-                                </td>
-                                <td>
-                                    <div class="font-size-13"><i class="ri-checkbox-blank-circle-fill font-size-10 text-success align-middle me-2"></i>Active</div>
-                                </td>
-                                <td>
-                                    04 Apr, 2021
-                                </td>
-                                <td>$42,450</td>
-                            </tr>
-                        </tbody><!-- end tbody -->
-                    </table> <!-- end table -->
-                </div>
+<div class="table-responsive">
+    <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+        <thead class="table-light">
+            <tr>
+                <th>Product No</th>
+                <th>Item Name</th>
+                <th>Customer Name</th>
+                <th>Status</th>
+                <th>Delivery Date</th>
+                <th style="width: 120px;">Amount</th>
+            </tr>
+        </thead><!-- end thead -->
+        <tbody>
+            @foreach($orders as $order)
+                <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                    <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
+                    <td>{{ $order->product_name }}</td>
+                    <td>{{ $order->customer_name }}</td>
+                    <td>
+                        <div class="font-size-13">
+                            @php
+                                // Determine the color class based on order status
+                                $statusColor = 'text-warning'; // default yellow for pending
+                                if ($order->order_status === 'completed') {
+                                    $statusColor = 'text-success'; // green for completed
+                                } elseif ($order->order_status === 'cancelled') {
+                                    $statusColor = 'text-danger'; // red for cancelled
+                                }
+                            @endphp
+                            <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
+                            {{ ucfirst($order->order_status) }}
+                        </div>
+                    </td>
+                    <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
+                    <td>£{{ number_format($order->price, 2) }}</td>
+                </tr>
+            @endforeach
+        </tbody><!-- end tbody -->
+    </table>
+    <!-- end table -->
+</div>
+
             </div><!-- end card -->
         </div><!-- end card -->
     </div>

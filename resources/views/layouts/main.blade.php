@@ -10,7 +10,7 @@
         <meta content="Themesdesign" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/logo.svg') }}">
-
+        
         <!-- jquery.vectormap css -->
         <link href="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
         
@@ -45,7 +45,7 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
-                            <a href="index.html" class="logo logo-dark">
+                            <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{ asset('assets/images/logo.svg') }}" alt="logo-sm" height="40">
                                 </span>
@@ -54,7 +54,7 @@
                                 </span>
                             </a>
 
-                            <a href="index.html" class="logo logo-light">
+                            <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="{{ asset('assets/images/logo.svg') }}" alt="logo-sm-light" height="35">
                                 </span>
@@ -69,12 +69,11 @@
                         </button>
 
                         <!-- App Search-->
-                        <form class="app-search d-none d-lg-block">
-                            <div class="position-relative">
-                                
-                                <button type="button" class="btn btn-success" onclick="createOrder()">
+                        <form class="app-search d-none d-                                <input type="text" class="form-control"                                
+                                <a href="{{ route('orders.create') }}" class="btn btn-success">
                                     <i class="ri-add-line"></i> Create New Order
-                                </button>
+                                </a>
+                                
                             </div>
                         </form>
                         
@@ -159,7 +158,7 @@
                             <li class="menu-title">Menu</li>
 
                             <li>
-                                <a href="index.html" class="waves-effect">
+                                <a href="{{ route('admin.dashboard') }}" class="waves-effect">
                                     <i class="ri-dashboard-line"></i><span class="badge rounded-pill bg-success float-end">3</span>
                                     <span>Dashboard</span>
                                 </a>
@@ -384,6 +383,17 @@
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+                        
+                        <!-- start page title -->
+                        <!-- end page title -->
+                        
+
+                        @yield('content')
+                        
+">
 
                 <div class="page-content">
                     <div class="container-fluid">
