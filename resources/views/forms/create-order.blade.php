@@ -129,20 +129,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="order_status" class="form-label">Status</label>
-                                <select id="order_status" class="form-control select2-search-disable" name="order_status"  required>
-                                    <option value="">Select Status</option>
-                                    <option value="pending" {{ old('order_status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="completed" {{ old('order_status') == 'completed' ? 'selected' : '' }}>Completed</option>
-                                    <option value="canceled" {{ old('order_status') == 'canceled' ? 'selected' : '' }}>Canceled</option>
-                                </select>
-                                @error('order_status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
                     </div>
 
                     <div>

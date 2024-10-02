@@ -21,7 +21,7 @@
                 <div class="d-flex">
                     <div class="flex-grow-1">
                         <p class="text-truncate font-size-14 mb-2">Total Revenue</p>
-                        <h4 class="mb-2">1452 £</h4>
+                        <h4 class="mb-2">£{{ number_format($totalRevenue, 2) }}</h4>
                         {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>9.23%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">
@@ -39,7 +39,7 @@
                 <div class="d-flex">
                     <div class="flex-grow-1">
                         <p class="text-truncate font-size-14 mb-2">Pending Orders (Used)</p>
-                        <h4 class="mb-2">938</h4>
+                        <h4 class="mb-2">{{ $pendingOrdersCount }}</h4>
                         {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-down-line me-1 align-middle"></i>1.09%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">
@@ -57,7 +57,7 @@
                 <div class="d-flex">
                     <div class="flex-grow-1">
                         <p class="text-truncate font-size-14 mb-2">Completed Orders (Used)</p>
-                        <h4 class="mb-2">8246</h4>
+                        <h4 class="mb-2">{{ $CompletedOrdersCount }}</h4>
                         {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">
@@ -75,7 +75,7 @@
                 <div class="d-flex">
                     <div class="flex-grow-1">
                         <p class="text-truncate font-size-14 mb-2">Total expenses</p>
-                        <h4 class="mb-2">29670</h4>
+                        <h4 class="mb-2">0</h4>
                         {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>11.7%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <h4 class="card-title mb-4">Latest Transactions</h4>
+                <h4 class="card-title mb-4">Latest Orders</h4>
 
 <div class="table-responsive">
     <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
@@ -133,9 +133,9 @@
                             @php
                                 // Determine the color class based on order status
                                 $statusColor = 'text-warning'; // default yellow for pending
-                                if ($order->order_status === 'completed') {
+                                if ($order->order_status === 'Completed') {
                                     $statusColor = 'text-success'; // green for completed
-                                } elseif ($order->order_status === 'cancelled') {
+                                } elseif ($order->order_status === 'refunded') {
                                     $statusColor = 'text-danger'; // red for cancelled
                                 }
                             @endphp
@@ -159,44 +159,47 @@
     <div class="col-xl-4">
         <div class="card">
             <div class="card-body">
-                <div class="float-end">
-                    <select class="form-select shadow-none form-select-sm">
-                        <option selected>Apr</option>
-                        <option value="1">Mar</option>
-                        <option value="2">Feb</option>
-                        <option value="3">Jan</option>
-                    </select>
+                <h4 class="card-title mb-4">Latest Transaction</h4>
+                <div class="table-responsive">
+                    <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Source</th>
+                                <th>Date</th>
+                                <th style="width: 120px;">Amount</th>
+                            </tr>
+                        </thead><!-- end thead -->
+                        <tbody>
+                            @foreach($revenu as $revenues)
+                                <tr style="cursor: pointer;">
+                                    <td>
+                                        <div class="font-size-13">
+                                            @php
+                                                // Determine the color class based on the source (completed, refunded, etc.)
+                                                $statusColor = 'text-warning'; // default yellow for pending
+                                                if ($revenues->source === 'orders' && $revenues->amount > 0) {
+                                                    $statusColor = 'text-success'; // green for completed
+                                                } elseif ($revenues->source === 'orders' && $revenues->amount < 0) {
+                                                    $statusColor = 'text-danger'; // red for refunded
+                                                }
+                                            @endphp
+                                            <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
+                                            {{ ucfirst($revenues->source) }}
+                                        </div>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($revenues->created_at)->format('d M, Y') }}</td>
+                                    <td>£{{ number_format($revenues->amount, 2) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody><!-- end tbody -->
+                        
+                    </table>
+                    <!-- end table -->
                 </div>
-                <h4 class="card-title mb-4">Monthly Earnings</h4>
                 
-                <div class="row">
-                    <div class="col-4">
-                        <div class="text-center mt-4">
-                            <h5>3475</h5>
-                            <p class="mb-2 text-truncate">Market Place</p>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-4">
-                        <div class="text-center mt-4">
-                            <h5>458</h5>
-                            <p class="mb-2 text-truncate">Last Week</p>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-4">
-                        <div class="text-center mt-4">
-                            <h5>9062</h5>
-                            <p class="mb-2 text-truncate">Last Month</p>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                </div>
                 <!-- end row -->
 
-                <div class="mt-4">
-                    <div id="donut-chart" class="apex-charts"></div>
-                </div>
+                
             </div>
         </div><!-- end card -->
     </div><!-- end col -->
