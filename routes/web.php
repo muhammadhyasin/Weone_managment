@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,12 +19,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/create', function () {
+    return view('forms.create-order');})->middleware(['auth', 'verified'])->name('create');
     
-    
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('orders.index'); // List all orders
+    Route::get('/create', [OrderController::class, 'create'])->name('orders.create'); // Show form to create a new order
+    Route::post('/', [OrderController::class, 'store'])->name('orders.store'); // Store a new order
+    Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit'); // Show form to edit an existing order
+    Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update'); // Update an existing order
+    Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Delete an order (optional)
 });
-
 
 require __DIR__.'/auth.php';
 

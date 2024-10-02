@@ -28,12 +28,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if($request->user()->role === 'admin')
-        {
-            return redirect('/');
-        }
+        $userRole = $request->user()->role;
 
-        return redirect()->intended(route('/'));
+        if ($userRole === 'admin') {
+            return redirect()->route('dashboard'); // Redirect to admin dashboard
+        } elseif ($userRole === 'officer') {
+            return redirect()->route('office-dashboard'); // Redirect to driver dashboard
+        } elseif ($userRole === 'driver') {
+            return redirect()->route('driver-dashboard'); // Redirect to officer dashboard
+        } else {
+            
+            Auth::logout();
+            return redirect('/')->with('error', 'Your account does not have a valid role.'); 
+        }
     }
 
     /**
