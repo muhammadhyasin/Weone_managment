@@ -4,8 +4,10 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
+        <div class="flex flex-col items-center">
+        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" class="h-20 ">
         <!-- Email Address -->
+        </div>
         <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
