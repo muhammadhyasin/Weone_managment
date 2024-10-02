@@ -20,13 +20,13 @@ return new class extends Migration
             $table->string('phone_number'); 
             $table->string('postcode'); 
             $table->date('delivery_date');
-            $table->timestamp('delivery_start_time');
-            $table->timestamp('delivery_end_time');
+            $table->time('delivery_start_time');
+            $table->time('delivery_end_time');
             $table->decimal('price', 10, 2); 
             $table->string('created_by'); 
             $table->string('updated_by')->nullable(); 
             $table->timestamps(); 
-            $table->string('status'); 
+            $table->string('order_status'); 
         });
     }
 

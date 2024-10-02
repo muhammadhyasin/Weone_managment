@@ -22,8 +22,18 @@ class Order extends Model
         'price',
         'created_by',
         'updated_by',
-        'status',
+        'order_status',
+        'payment_method',      
+        'payment_status',
     ];
+    public static function countPendingOrders()
+    {
+        return self::where('order_status', 'pending')->count();
+    }
+    public static function countCompleteOrders()
+    {
+        return self::where('order_status', 'Completed')->count();
+    }
 
    
     public function creator()
