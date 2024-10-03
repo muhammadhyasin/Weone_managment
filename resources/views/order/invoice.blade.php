@@ -125,6 +125,28 @@
         </div>
     </div> <!-- end col -->
 </div>
+<script>
+    // Ensure light mode is selected by default
+    document.addEventListener('DOMContentLoaded', function () {
+        const lightModeSwitch = document.getElementById('light-mode-switch');
+        const darkModeSwitch = document.getElementById('dark-mode-switch');
+
+        // Check the light mode by default
+        if (lightModeSwitch) {
+            lightModeSwitch.checked = true;
+        }
+
+        // Optionally, uncheck dark mode
+        if (darkModeSwitch) {
+            darkModeSwitch.checked = false;
+        }
+
+        // Apply light mode styles dynamically if needed
+        // Example: Ensure proper style is loaded
+        document.getElementById('bootstrap-style').href = "{{ asset('assets/css/bootstrap.min.css') }}";
+        document.getElementById('app-style').href = "{{ asset('assets/css/app.min.css') }}";
+    });
+</script>
 
 
 
