@@ -7,12 +7,24 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <style>
-            .bg-image {
-                background-image: url('{{ asset('assets/images/auth-bg.jpg') }}'); /* Replace with your actual image path */
-                background-size: cover; /* Cover the entire area */
-                background-position: center; /* Center the image */
-                height: 100vh; /* Full viewport height */
-            }
+            body {
+                    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                    background-size: 400% 400%;
+                    animation: gradient 15s ease infinite;
+                    height: 100vh;
+                }
+
+                @keyframes gradient {
+                    0% {
+                        background-position: 0% 50%;
+                    }
+                    50% {
+                        background-position: 100% 50%;
+                    }
+                    100% {
+                        background-position: 0% 50%;
+                    }
+                }
         </style>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -23,7 +35,7 @@
     </head>
     <body class="font-sans text-gray-900 antialiased ">
         
-        <div class="bg-image min-h-screen flex flex sm:justify-center items-center pt-6 sm:pt-0">
+        <div class="bg-gradient min-h-screen flex flex sm:justify-center items-center pt-6 sm:pt-0">
             <div>
                 <!-- You can add a logo or any other content here if needed -->
             </div>
