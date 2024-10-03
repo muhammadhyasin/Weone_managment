@@ -7,24 +7,13 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <style>
-            body {
-                    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-                    background-size: 400% 400%;
-                    animation: gradient 15s ease infinite;
-                    height: 100vh;
-                }
+            .bg-gradient {
+                background: #000000;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-                @keyframes gradient {
-                    0% {
-                        background-position: 0% 50%;
-                    }
-                    50% {
-                        background-position: 100% 50%;
-                    }
-                    100% {
-                        background-position: 0% 50%;
-                    }
-                }
+
+            }
         </style>
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -40,7 +29,7 @@
                 <!-- You can add a logo or any other content here if needed -->
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4   shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4  shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
             </div>
         </div>
