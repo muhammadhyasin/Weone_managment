@@ -21,18 +21,18 @@
         <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- Bootstrap Css -->
-        <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
         
         <!-- Icons Css -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- App Css-->
-        <link href="{{ asset('assets/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
         
 
     </head>
 
-    <body data-topbar="dark" data-layout-mode="dark">
+    <body data-topbar="dark">
     
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
@@ -67,6 +67,7 @@
                         <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                             <i class="ri-menu-2-line align-middle"></i>
                         </button>
+                        
 
                         <!-- App Search-->
                         <form class="app-search d-none d-lg-block">
@@ -258,7 +259,7 @@
                     
 
                     <div class="form-check form-switch mb-3">
-                        <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" >
+                        <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" checked>
                         <label class="form-check-label" for="light-mode-switch">Light Mode</label>
                     </div>
     
@@ -283,8 +284,6 @@
 
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
-        
-        
 
         <!-- JAVASCRIPT -->
         <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
