@@ -59,7 +59,7 @@
                         <h5>{{ $order->delivery_date }}</h5>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="delivery_start_time" class="form-label">Estimete Delivery Time From</label>
+                        <label for="delivery_start_time" class="form-label">Estimete Delivery Time Between</label>
                         <h5>{{ $order->delivery_start_time }} To {{ $order->delivery_end_time }}</h5>
                     </div>
                     <div class="col-md-4 mb-3">
@@ -88,6 +88,9 @@
                                 <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit Orders</button>
                             </a>
                         @endif
+                        @if($order->order_status === 'Completed')
+                        <a href="{{ route('invoice.show', $order->id) }}" class="btn btn-success">Print Invoice</a>
+                    @endif
 
                         <!-- Show the Refund button only if the status is 'completed' -->
                         @if($order->order_status === 'Completed' && !is_null($order->payment_status) && $order->payment_status !== 'pending')

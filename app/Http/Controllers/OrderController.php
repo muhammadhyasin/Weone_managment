@@ -14,6 +14,11 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         return view('order.view', compact('order'));
     }
+    public function invoice($id)
+    {
+        $order = Order::findOrFail($id);
+        return view('order.invoice', compact('order'));
+    }
     
     
     public function create()
@@ -32,6 +37,7 @@ class OrderController extends Controller
         // Pass the orders to the view
         return view('admin.dashboard', compact('orders', 'revenu', 'totalRevenue', 'pendingOrdersCount', 'CompletedOrdersCount'));
     }
+    
     public function singleindex()
     {
         

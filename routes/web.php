@@ -16,6 +16,7 @@ Route::get('/index', [OrderController::class, 'singleindex'])->name('orders.inde
 Route::get('/index-pending', [OrderController::class, 'pendingindex'])->name('orders.pending');
 Route::get('/index-completed', [OrderController::class, 'completedindex'])->name('orders.completed');
 Route::get('/index-refunded', [OrderController::class, 'refundindex'])->name('orders.refunded');
+Route::get('/invoice/{order}', [OrderController::class, 'invoice'])->name('invoice.show');
 
     
 Route::get('/office', function () {
