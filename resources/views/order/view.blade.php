@@ -296,7 +296,8 @@
                                     </div>
                                 </div>
                                 <!-- end card -->
-                            </div> <!-- end col -->
+                            </div>
+                             <!-- end col -->
                         </div>
                     </div>
                 </div>
@@ -304,5 +305,43 @@
         </div>
         <!-- end card -->
     </div> <!-- end col -->
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Order Logs</h4>
+            <div class="table-responsive">
+                <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead><!-- end thead -->
+                    <tbody>
+                        @foreach($logs as $log)
+                            <tr style="cursor: pointer;">
+                                <td>
+                                    <div class="font-size-13">
+                                        {{ $log->user->name }} <!-- Assuming you have a 'name' field in the User model -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="font-size-13">
+                                        {{ $log->action }}
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($log->created_at)->timezone('Asia/Kolkata')->format('d M, Y H:i') }}
+
+
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody><!-- end tbody -->
+                </table>
+                <!-- end table -->
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

@@ -45,6 +45,11 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+    public function logs()
+    {
+        return $this->hasMany(Log::class);
+    }
+
 
 
     
