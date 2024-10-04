@@ -7,14 +7,44 @@
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Home</a></li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">{{ Auth::user()->role }}</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div>
         </div>
     </div>
 </div>
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form action="{{ route('admin.dashboard') }}" method="GET">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="start_date" class="form-label">Start Date:</label>
+                    <input type="date" class="form-control" name="start_date" id="start_date" value="{{ $startDate ?? '' }}" placeholder="Start Date">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="end_date" class="form-label">End Date:</label>
+                    <input type="date" class="form-control" name="end_date" id="end_date" value="{{ $endDate ?? '' }}" placeholder="End Date">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="sort_order" class="form-label">Order:</label>
+                    <select name="sort_order" id="sort_order" class="form-select">
+                        <option value="asc" {{ $sortOrder == 'asc' ? 'selected' : '' }}>Ascending</option>
+                        <option value="desc" {{ $sortOrder == 'desc' ? 'selected' : '' }}>Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3 ">
+                <button type="submit" class="btn btn-primary">Filter & Sort</button>
+                <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Reset</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <div class="row">
+    @if(Auth::user() && Auth::user()->role === 'admin')
     <div class="col-xl-3 col-md-6">
         <div class="card">
             <div class="card-body">
@@ -32,7 +62,8 @@
                 </div>                                            
             </div><!-- end cardbody -->
         </div><!-- end card -->
-    </div><!-- end col -->
+    </div>
+    @endif<!-- end col -->
     <div class="col-xl-3 col-md-6">
         <div class="card">
             <div class="card-body">
@@ -43,8 +74,8 @@
                         {{-- <p class="text-muted mb-0"><span class="text-danger fw-bold font-size-12 me-2"><i class="ri-arrow-right-down-line me-1 align-middle"></i>1.09%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">
-                        <span class="avatar-title bg-light text-success rounded-3">
-                            <i class="ri-shopping-cart-2-line font-size-24"></i>
+                        <span class="avatar-title bg-light text-warning rounded-3">
+                            <i class="ri-shopping-cart-2-fill font-size-24"></i>
                         </span>
                     </div>
                 </div>                                              
@@ -62,7 +93,25 @@
                     </div>
                     <div class="avatar-sm">
                         <span class="avatar-title bg-light text-primary rounded-3">
-                            <i class="ri-user-3-line font-size-24 text-danger"></i>  
+                            <i class="ri-check-double-line font-size-24 text-success"></i>  
+                        </span>
+                    </div>
+                </div>                                              
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-truncate font-size-14 mb-2">Refunded Orders (Used)</p>
+                        <h4 class="mb-2">{{ $RefundedOrdersCount }}</h4>
+                        {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p> --}}
+                    </div>
+                    <div class="avatar-sm">
+                        <span class="avatar-title bg-light text-primary rounded-3">
+                            <i class="ri-refund-2-line font-size-24 text-danger"></i>  
                         </span>
                     </div>
                 </div>                                              
@@ -70,6 +119,25 @@
         </div><!-- end card -->
     </div><!-- end col -->
     <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-truncate font-size-14 mb-2">Cancelled Orders (Used)</p>
+                        <h4 class="mb-2">{{ $CancelledOrdersCount }}</h4>
+                        {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p> --}}
+                    </div>
+                    <div class="avatar-sm">
+                        <span class="avatar-title bg-light text-primary rounded-3">
+                            <i class="ri-close-line font-size-24 text-danger"></i>  
+                        </span>
+                    </div>
+                </div>                                              
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div>
+    <div class="col-xl-3 col-md-6">
+        @if(Auth::user() && Auth::user()->role === 'admin')
         <div class="card">
             <div class="card-body">
                 <div class="d-flex">
@@ -86,27 +154,14 @@
                 </div>                                              
             </div><!-- end cardbody -->
         </div><!-- end card -->
+        @endif
     </div><!-- end col -->
 </div><!-- end row -->
 <div class="row">
     <div class="col-xl-8">
         <div class="card">
             <div class="card-body">
-                <div class="dropdown float-end">
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-dots-vertical"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                    </div>
-                </div>
+                
 
                 <h4 class="card-title mb-4">Latest Orders</h4>
 
@@ -138,6 +193,9 @@
                                 } elseif ($order->order_status === 'refunded') {
                                     $statusColor = 'text-danger'; // red for cancelled
                                 }
+                                elseif ($order->order_status === 'Cancelled') {
+                                    $statusColor = 'text-danger'; // red for cancelled
+                                }
                             @endphp
                             <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
                             {{ ucfirst($order->order_status) }}
@@ -158,6 +216,7 @@
     <!-- end col -->
     <div class="col-xl-4">
         <div class="card">
+            @if(Auth::user() && Auth::user()->role === 'admin')
             <div class="card-body">
                 <h4 class="card-title mb-4">Latest Transaction</h4>
                 <div class="table-responsive">
@@ -202,6 +261,7 @@
                 
             </div>
         </div><!-- end card -->
+        @endif
     </div><!-- end col -->
 </div>
 @endsection

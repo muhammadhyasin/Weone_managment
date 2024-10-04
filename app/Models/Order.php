@@ -25,15 +25,26 @@ class Order extends Model
         'order_status',
         'payment_method',      
         'payment_status',
+        'advance_amount', 
+        'description',
     ];
     public static function countPendingOrders()
     {
         return self::where('order_status', 'pending')->count();
     }
+    public static function countRefundOrders()
+    {
+        return self::where('order_status', 'refunded')->count();
+    }
+    public static function countCancelledOrders()
+    {
+        return self::where('order_status', 'Cancelled')->count();
+    }
     public static function countCompleteOrders()
     {
         return self::where('order_status', 'Completed')->count();
     }
+    
 
    
     public function creator()

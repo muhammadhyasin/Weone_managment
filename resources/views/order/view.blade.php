@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="price" class="form-label">Product Price</label>
-                        <h4>{{ $order->price }}</h4>
+                        <h4>£ {{ $order->price }}</h4>
                     </div>
                 </div>
 
@@ -51,6 +51,14 @@
                         <label for="postcode" class="form-label">Zip Code</label>
                         <h5>{{ $order->postcode }}</h5>
                     </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="postcode" class="form-label">Advance Amount</label>
+                        <h5>{{ $order->advance_amount }}</h5>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="postcode" class="form-label">Description</label>
+                        <h5>{{ $order->description }}</h5>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -64,7 +72,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="order_status" class="form-label">Status</label>
-                        <h5 class="{{ $order->order_status == 'pending' ? 'text-warning' : ($order->order_status == 'Completed' ? 'text-success' : ($order->order_status == 'refunded' ? 'text-danger' : '')) }}">
+                        <h5 class="{{ $order->order_status == 'pending' ? 'text-warning' : ($order->order_status == 'Completed' ? 'text-success' : ($order->order_status == 'refunded' || 'Cancelled' ? 'text-danger' : '')) }}">
                             {{ ucfirst($order->order_status) }}
                         </h5>
                     </div>
@@ -83,7 +91,7 @@
 
                 <div>
                     <a href="{{ route('orders.index') }}" class="btn btn-secondary">Back to Orders</a>
-                    @if($order->order_status !== 'refunded' && $order->order_status !== 'Completed')
+                    @if($order->order_status !== 'refunded' && $order->order_status !== 'Completed' && $order->order_status !== 'Cancelled')
                             <a>
                                 <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit Orders</button>
                             </a>
@@ -228,6 +236,26 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="advance_amount" class="form-label">Advance Amount</label>
+                                                        <input type="text" class="form-control" name="advance_amount" id="advance_amount" placeholder="Zip" value="{{ old('advance_amount', $order->advance_amount) }}" >
+                                                        <div class="invalid-feedback">Please provide amount.</div>
+                                                        @error('advance_amount')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="description" class="form-label">Description</label>
+                                                        <input type="text" class="form-control" name="description" id="description" placeholder="description" value="{{ old('description', $order->description) }}" >
+                                                        <div class="invalid-feedback">Please provide a description.</div>
+                                                        @error('advance_amount')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                         
                                             <div class="row">
@@ -276,10 +304,23 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
+                                                        <label for="order_status" class="form-label">Status</label>
+                                                        <select id="order_status" class="form-control select2-search-disable" name="order_status" required>
+                                                            <option value="pending">pending</option>
+                                                            <option value="Cancelled" {{ old('order_status', $order->order_status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                        </select>
+                                                        @error('order_status')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
                                                         <label for="payment_status" class="form-label">Payment Status</label>
                                                         <select id="payment_status" class="form-control select2-search-disable" name="payment_status" required>
                                                             <option value="">Select Status</option>
                                                             <option value="pending" {{ old('payment_status', $order->payment_status) == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                            <option value="Cancelled" {{ old('payment_status', $order->payment_status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                                             <option value="Completed" {{ old('payment_status', $order->payment_status) == 'Completed' ? 'selected' : '' }}>Completed</option>
                                                         </select>
                                                         @error('payment_status')
