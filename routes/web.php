@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,7 @@ Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit
 Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update'); // Update an existing order
 Route::delete('/{order}', [OrderController::class, 'destroy'])->name('orders.destroy'); // Delete an order (optional)
 
-
+Route::get('/expenses', [ExpenseController::class, 'create'])->name('expense.create');
+Route::post('/expenses-save', [ExpenseController::class, 'store'])->name('expense.store');
 require __DIR__.'/auth.php';
 

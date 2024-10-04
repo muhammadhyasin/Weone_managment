@@ -70,23 +70,46 @@
                         
 
                         <!-- App Search-->
-                        <form class="app-search d-none d-lg-block">
-                            <div class="position-relative">
-                                <a href="{{ route('orders.create') }}"><button type="button" class="btn btn-success">
-                                    <i class="ri-add-line"></i> Create New Order
-                                </button></a>
+                        <div class="dropdown d-inline-block user-dropdown d-none d-lg-block">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="createDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Create <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                                </button>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="{{ route('orders.create') }}">
+                                    <i class="ri-add-line align-middle me-1"></i> New Order
+                                </a>
                                 
+                                <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
+
                             </div>
-                        </form>
+                        </div>
                         
+                    
                     </div>
                     
 
                     <div class="d-flex">
 
-                        <div class="dropdown d-inline-block d-lg-none ms-2"><a href="{{ route('orders.create') }}"> <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown">
-                            <i class="ri-add-line"></i>
-                        </button></a>
+                        <div class="dropdown d-inline-block user-dropdown d-lg-none ms-2">
+                            <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="createDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="ri-add-line"></i>
+                                </button>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <a class="dropdown-item" href="{{ route('orders.create') }}">
+                                    <i class="ri-add-line align-middle me-1"></i> New Order
+                                </a>
+                                
+                                <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
+
+                            </div>
                         </div>
                         
                         <div class="dropdown d-none d-lg-inline-block ms-1">
@@ -94,8 +117,8 @@
                                 <i class="ri-fullscreen-line"></i>
                             </button>
                         </div>
-
-
+                        
+                        
                         <div class="dropdown d-inline-block user-dropdown">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -124,6 +147,9 @@
 
                             </div>
                         </div>
+
+
+                        
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
