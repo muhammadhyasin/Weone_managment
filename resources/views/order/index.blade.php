@@ -8,6 +8,26 @@
 
                 <h4 class="card-title">Total Orders</h4>
                 <br>
+                <form method="GET" action="{{ route('orders.index') }}">
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <label for="start_date">Start Date:</label>
+                            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ request('start_date') }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="end_date">End Date:</label>
+                            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <a href="{{ route('orders.index') }}" class="btn btn-secondary">Reset</a>
+                        </div>
+                    </div>
+                </form>
+
+                <br>
                 
 
                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -38,7 +58,10 @@
                                                 $statusColor = 'text-success'; // green for completed
                                             } elseif ($order->order_status === 'refunded') {
                                                 $statusColor = 'text-danger'; // red for cancelled
+                                            }elseif ($order->order_status === 'Cancelled') {
+                                                $statusColor = 'text-danger'; // red for cancelled
                                             }
+                                            
                                         @endphp
                                         <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
                                         {{ ucfirst($order->order_status) }}

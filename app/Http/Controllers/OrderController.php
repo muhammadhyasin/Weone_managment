@@ -8,30 +8,67 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 { 
     // dashboard index   
-    public function index()
+    public function index(Request $request)
     {
-        // Fetch latest transactions (orders)
-        $orders = Order::orderBy('created_at', 'desc')->take(10)->get();
-        $revenu = Revenue::orderBy('created_at', 'desc')->take(10)->get();
-        $totalRevenue = Revenue::totalRevenue();
-        $pendingOrdersCount = Order::countPendingOrders();
-        $CompletedOrdersCount = Order::countCompleteOrders();
-        $totalExpenses = \App\Models\Expense::getTotalExpenses();
+        // Get filter and sorting parameters from the request
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $sortField = $request->query('sort_field', 'created_at');  // Default sort field is 'created_at'
+        $sortOrder = $request->query('sort_order', 'desc');        // Default sort order is 'desc'
 
-        
-        // Pass the orders to the view
-        return view('admin.dashboard', compact('orders', 'revenu', 'totalRevenue', 'pendingOrdersCount', 'CompletedOrdersCount', 'totalExpenses'));
+        // Default to first day of the current month and last day of the current month if no dates are provided
+        if (!$startDate && !$endDate) {
+            $startDate = Carbon::now()->startOfMonth()->toDateString(); // 1st of the current month
+            $endDate = Carbon::now()->endOfMonth()->toDateString();     // Last day of the current month
+        }
+
+        // Apply filtering conditions with the defined dates
+        $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+                    ->orderBy($sortField, $sortOrder)
+                    ->take(10)
+                    ->get();
+
+        $revenu = Revenue::whereBetween('created_at', [$startDate, $endDate])
+                        ->orderBy($sortField, $sortOrder)
+                        ->take(10)
+                        ->get();
+
+        // Filtered totals and counts
+        $totalRevenue = Revenue::whereBetween('created_at', [$startDate, $endDate])->sum('amount');
+        $pendingOrdersCount = Order::whereBetween('created_at', [$startDate, $endDate])
+                                    ->where('order_status', 'pending')->count();
+        $CompletedOrdersCount = Order::whereBetween('created_at', [$startDate, $endDate])
+                                    ->where('order_status', 'completed')->count();
+        $RefundedOrdersCount = Order::whereBetween('created_at', [$startDate, $endDate])
+                                    ->where('order_status', 'refunded')->count();
+        $CancelledOrdersCount = Order::whereBetween('created_at', [$startDate, $endDate])
+                                    ->where('order_status', 'cancelled')->count();
+        $totalExpenses = \App\Models\Expense::whereBetween('created_at', [$startDate, $endDate])->sum('amount');
+
+        // Pass the filtered and sorted data to the view
+        return view('admin.dashboard', compact(
+            'orders', 'revenu', 'totalRevenue', 'pendingOrdersCount', 'CompletedOrdersCount', 
+            'totalExpenses', 'RefundedOrdersCount', 'CancelledOrdersCount', 'startDate', 'endDate', 'sortField', 'sortOrder'
+        ));
     }
+
+
+
    // show order  
     public function show($id)
     {
         $order = Order::findOrFail($id);
         $logs = Log::where('order_id', $order->id)->with('user')->get();
         return view('order.view', compact('order', 'logs'));
+    }
+    public function createview()
+    {
+        return view('forms.create-order');
     }
 
     // create order
@@ -52,6 +89,8 @@ class OrderController extends Controller
             'price' => 'required|numeric',
             'payment_method' => 'string',
             'payment_status' => 'string',
+            'advance_amount' => 'nullable', 
+            'description' => 'nullable',
         ]);
 
         try {
@@ -105,6 +144,8 @@ class OrderController extends Controller
             'order_status' => 'nullable|string|max:50',
             'payment_method' => 'nullable',
             'payment_status' => 'nullable',
+            'advance_amount' => 'nullable', 
+            'description' => 'nullable',
         ]);
 
         // Set order status based on payment status
@@ -220,10 +261,19 @@ class OrderController extends Controller
         //create order view 
         return view('forms.create-order'); 
     }
-    public function singleindex()
+    public function singleindex(Request $request)
     {
         // indexing all orders 
-        $orders = Order::orderBy('created_at', 'desc')->take(10)->get();
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $query = Order::query();
+
+        
+        if ($startDate && $endDate) {
+            $query->whereBetween('delivery_date', [$startDate, $endDate]);
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->get();
         return view('order.index', compact('orders'));
     }
     public function pendingindex()
@@ -261,5 +311,27 @@ class OrderController extends Controller
         
         return view('order.view', compact('order', 'logs'));
     }
+
+    public function filterByDateRange(Request $request)
+    {
+        // Validate the incoming request to ensure proper date inputs
+        $validatedData = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        // Retrieve the validated dates
+        $startDate = $validatedData['start_date'];
+        $endDate = $validatedData['end_date'];
+
+        // Query orders within the date range
+        $orders = Order::whereBetween('created_at', [$startDate, $endDate])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        // Pass the orders to the view
+        return view('order.index', compact('orders'));
+    }
+
 
 }

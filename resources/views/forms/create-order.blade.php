@@ -53,6 +53,13 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="advance_amount" class="form-label">Advance Amount</label>
+                                <input type="number" class="form-control" name="advance_amount" id="advance_amount" placeholder="Advance Amount" value="{{ old('advance_amount') }}" >
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="customer_name" class="form-label">Customer Name</label>
@@ -96,6 +103,13 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="postcode" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Zip" value="{{ old('postcode') }}" >
+                                
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -112,23 +126,45 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="delivery_start_time" class="form-label">Delivery Start Time</label>
-                                <input class="form-control" type="time" name="delivery_start_time" id="delivery_start_time" value="{{ old('delivery_start_time') }}" required>
+                                <div class="input-group">
+                                    <select name="delivery_start_hour" id="delivery_start_hour" class="form-select" required>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{ $i }}" {{ old('delivery_start_hour') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                    <select name="delivery_start_ampm" id="delivery_start_ampm" class="form-select" required>
+                                        <option value="AM" {{ old('delivery_start_ampm') == 'AM' ? 'selected' : '' }}>AM</option>
+                                        <option value="PM" {{ old('delivery_start_ampm') == 'PM' ? 'selected' : '' }}>PM</option>
+                                    </select>
+                                </div>
                                 <div class="invalid-feedback">Please provide a valid Time.</div>
                                 @error('delivery_start_time')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+                        
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="delivery_end_time" class="form-label">Delivery End Time</label>
-                                <input class="form-control" type="time" name="delivery_end_time" id="delivery_end_time" value="{{ old('delivery_end_time') }}" required>
+                                <div class="input-group">
+                                    <select name="delivery_end_hour" id="delivery_end_hour" class="form-select" required>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{ $i }}" {{ old('delivery_end_hour') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                    <select name="delivery_end_ampm" id="delivery_end_ampm" class="form-select" required>
+                                        <option value="AM" {{ old('delivery_end_ampm') == 'AM' ? 'selected' : '' }}>AM</option>
+                                        <option value="PM" {{ old('delivery_end_ampm') == 'PM' ? 'selected' : '' }}>PM</option>
+                                    </select>
+                                </div>
                                 <div class="invalid-feedback">Please provide a valid Time.</div>
                                 @error('delivery_end_time')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+                        
                     </div>
 
                     <div>

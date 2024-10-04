@@ -82,9 +82,9 @@
                                 <a class="dropdown-item" href="{{ route('orders.create') }}">
                                     <i class="ri-add-line align-middle me-1"></i> New Order
                                 </a>
-                                
+                                @if(Auth::user() && Auth::user()->role === 'admin')
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
-
+                                @endif
                             </div>
                         </div>
                         
@@ -106,9 +106,9 @@
                                 <a class="dropdown-item" href="{{ route('orders.create') }}">
                                     <i class="ri-add-line align-middle me-1"></i> New Order
                                 </a>
-                                
+                                @if(Auth::user() && Auth::user()->role === 'admin')
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
-
+                                @endif
                             </div>
                         </div>
                         
@@ -203,6 +203,12 @@
                                     <li><a href="{{ route('orders.refunded') }}">Refunded orders</a></li>
                                 </ul>
                             </li>
+                            {{-- <li>
+                                <a href="{{ route('users.index') }}" class="waves-effect">
+                                    <i class="ri-user-line"></i>
+                                    <span>Users</span>
+                                </a>
+                            </li> --}}
 
                             
                             <li class="menu-title">Pages</li>
@@ -295,10 +301,6 @@
                         <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
                     </div>
                     
-                    <div class="form-check form-switch mb-5">
-                        <input class="form-check-input theme-choice" type="checkbox" id="rtl-mode-switch" data-appStyle="{{ asset('assets/css/app-rtl.min.css') }}">
-                        <label class="form-check-label" for="rtl-mode-switch">RTL Mode</label>
-                    </div>
                     
 
             
@@ -348,6 +350,13 @@
         <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+
+
+        <script src="assets/libs/table-edits/build/table-edits.min.js"></script>
+
+        <script src="assets/js/pages/table-editable.init.js"></script> 
+
+        <script src="assets/js/app.js"></script>
         
     </body>
 
