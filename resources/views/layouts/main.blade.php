@@ -21,13 +21,13 @@
         <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- Bootstrap Css -->
-        <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
         
         <!-- Icons Css -->
         <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- App Css-->
-        <link href="{{ asset('assets/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
         
 
     </head>
@@ -63,11 +63,10 @@
                                 </span>
                             </a>
                         </div>
-                        
+
                         <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                             <i class="ri-menu-2-line align-middle"></i>
                         </button>
-                        
 
                         <!-- App Search-->
                         <div class="dropdown d-inline-block user-dropdown d-none d-lg-block">
@@ -88,7 +87,6 @@
                             </div>
                         </div>
                         
-                    
                     </div>
                     
 
@@ -117,8 +115,8 @@
                                 <i class="ri-fullscreen-line"></i>
                             </button>
                         </div>
-                        
-                        
+
+
                         <div class="dropdown d-inline-block user-dropdown">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -147,9 +145,6 @@
 
                             </div>
                         </div>
-
-
-                        
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
@@ -301,6 +296,7 @@
                         <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
                     </div>
                     
+                
                     
 
             
@@ -350,13 +346,6 @@
         <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-
-
-        <script src="assets/libs/table-edits/build/table-edits.min.js"></script>
-
-        <script src="assets/js/pages/table-editable.init.js"></script> 
-
-        <script src="assets/js/app.js"></script>
         
     </body>
 
