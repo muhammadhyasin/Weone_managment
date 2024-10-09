@@ -85,6 +85,9 @@
                                 @if(Auth::user() && Auth::user()->role === 'admin')
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
                                 @endif
+                                @if(Auth::user() && Auth::user()->role === 'admin')
+                                <a class="dropdown-item d-block" href="{{ route('users.create') }}"><i class="ri-add-line align-middle me-1"></i> Create User</a>
+                                @endif
                             </div>
                         </div>
                         
