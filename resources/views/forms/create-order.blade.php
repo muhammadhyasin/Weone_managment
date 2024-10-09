@@ -105,8 +105,8 @@
                         </div>
                         <div class="col-md-8">
                             <div class="mb-3">
-                                <label for="postcode" class="form-label">Description</label>
-                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Zip" value="{{ old('postcode') }}" >
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description" id="description" placeholder="Description" value="{{ old('description') }}" >
                                 
                             </div>
                         </div>

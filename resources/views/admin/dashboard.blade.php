@@ -65,7 +65,7 @@
     </div>
     @endif<!-- end col -->
     <div class="col-xl-3 col-md-6">
-        <div class="card">
+        <div class="card" onclick="window.location='{{ route('orders.pending') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -83,7 +83,7 @@
         </div><!-- end card -->
     </div><!-- end col -->
     <div class="col-xl-3 col-md-6">
-        <div class="card">
+        <div class="card" onclick="window.location='{{ route('orders.completed') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -101,7 +101,7 @@
         </div><!-- end card -->
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card">
+        <div class="card " onclick="window.location='{{ route('orders.refunded') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -143,7 +143,7 @@
                 <div class="d-flex">
                     <div class="flex-grow-1">
                         <p class="text-truncate font-size-14 mb-2">Total expenses</p>
-                        <h4 class="mb-2">{{ $totalExpenses}}</h4>
+                        <h4 class="mb-2">£{{ $totalExpenses}}</h4>
                         {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>11.7%</span>from previous period</p> --}}
                     </div>
                     <div class="avatar-sm">

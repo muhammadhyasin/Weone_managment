@@ -30,6 +30,7 @@
         <link href="{{ asset('assets/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
         
 
+
     </head>
 
     <body data-topbar="dark">
@@ -198,12 +199,12 @@
                                     <li><a href="{{ route('orders.refunded') }}">Refunded orders</a></li>
                                 </ul>
                             </li>
-                            {{-- <li>
+                            <li>
                                 <a href="{{ route('users.index') }}" class="waves-effect">
                                     <i class="ri-user-line"></i>
                                     <span>Users</span>
                                 </a>
-                            </li> --}}
+                            </li>
 
                             
                             <li class="menu-title">Pages</li>
@@ -346,6 +347,7 @@
         <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
         <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+        
         
     </body>
 

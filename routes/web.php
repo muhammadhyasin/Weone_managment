@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
@@ -46,7 +47,14 @@ Route::get('/driver', function () {
 
 
 
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/user', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::post('/registeradd', [RegisteredUserController::class, 'storeadd'])->name('users.add');
+
+// web.php
+Route::get('/users/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update'); // For updating user details
 
 
 require __DIR__.'/auth.php';
