@@ -4,13 +4,15 @@ return [
     'name' => 'We One',
     'manifest' => [
         'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
+        'short_name' => 'We One Admin',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
         'display' => 'standalone',
-        'orientation'=> 'any',
-        'status_bar'=> 'black',
+        'orientation' => 'any',
+        'status_bar' => 'black',
+        'description' => 'We One Admin Dashboard: Manage your application efficiently and effectively with our intuitive interface.',
+        'lang' => 'en-US', // Specify the language of the app
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/icon-72x72.png',
@@ -59,18 +61,22 @@ return [
         ],
         'shortcuts' => [
             [
-                'name' => 'Shortcut Link 1',
-                'description' => 'Shortcut Link 1 Description',
-                'url' => '/shortcutlink1',
+                'name' => 'Manage Users',
+                'description' => 'Access the user management section to add, edit, or remove users.',
+                'url' => '/manage-users',
                 'icons' => [
                     "src" => "/images/icons/icon-72x72.png",
                     "purpose" => "any"
                 ]
             ],
             [
-                'name' => 'Shortcut Link 2',
-                'description' => 'Shortcut Link 2 Description',
-                'url' => '/shortcutlink2'
+                'name' => 'Reports',
+                'description' => 'View and generate reports for various metrics and performance indicators.',
+                'url' => '/reports',
+                'icons' => [
+                    "src" => "/images/icons/icon-96x96.png",
+                    "purpose" => "any"
+                ]
             ]
         ],
         'custom' => []
