@@ -1,4 +1,3 @@
-<!-- user list Blade template -->
 @extends('layouts.main')
 @section('content')
 <div class="row">
@@ -21,17 +20,19 @@
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                                <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->role }}</td>
-                                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                                    <td style="width: 100px">
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-outline-secondary btn-sm" title="Edit">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                @if ($user->role !== 'superadmin')
+                                    <tr>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->role }}</td>
+                                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                        <td style="width: 100px">
+                                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-outline-secondary btn-sm" title="Edit">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>
