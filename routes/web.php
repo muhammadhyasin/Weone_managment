@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EC2Controller;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
@@ -55,6 +56,13 @@ Route::post('/registeradd', [RegisteredUserController::class, 'storeadd'])->name
 // web.php
 Route::get('/users/{id}', [UserController::class, 'edit'])->name('user.edit');
 Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update'); // For updating user details
+
+Route::get('/ec2', [EC2Controller::class, 'listInstances'])->name('ec2.list')->middleware(['auth', 'superadmin']);
+Route::get('/ec2/start/{id}', [EC2Controller::class, 'startInstance'])->name('ec2.start')->middleware(['auth', 'superadmin']);
+Route::get('/ec2/stop/{id}', [EC2Controller::class, 'stopInstance'])->name('ec2.stop')->middleware(['auth', 'superadmin']);
+Route::get('/ec2/rdp/{id}', [EC2Controller::class, 'downloadRdp'])->name('ec2.downloadRdp')->middleware(['auth', 'superadmin']);
+Route::get('/ec2/instances/status', [EC2Controller::class, 'getInstanceStatuses'])->name('ec2.status')->middleware(['auth', 'superadmin']);
+
 
 
 require __DIR__.'/auth.php';
