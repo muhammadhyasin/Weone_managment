@@ -35,8 +35,11 @@ class AuthenticatedSessionController extends Controller
         } elseif ($userRole === 'officer') {
             return redirect()->route('admin.dashboard'); // Redirect to driver dashboard
         } elseif ($userRole === 'driver') {
-            return redirect()->route('driver-dashboard'); // Redirect to officer dashboard
-        } else {
+            return redirect()->route('admin.dashboard'); // Redirect to officer dashboard
+        } elseif ($userRole === 'superadmin') {
+            return redirect()->route('admin.dashboard'); // Redirect to officer dashboard
+        }
+         else {
             
             Auth::logout();
             return redirect('/')->with('error', 'Your account does not have a valid role.'); 
