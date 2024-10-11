@@ -25,7 +25,13 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('user.edit-user', compact('user'));
+        if ($user->role == 'superadmin' && auth()->user()->role != 'superadmin') {
+            return redirect()->back()->with('error', 'You are not authorized to edit a SuperAdmin.');
+        }else{
+            $user = User::findOrFail($id);
+            return view('user.edit-user', compact('user'));
+        }
+        
     }
     public function update(Request $request, $id)
     {
