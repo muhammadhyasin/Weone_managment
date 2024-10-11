@@ -44,7 +44,7 @@
 
 
 <div class="row">
-    @if(Auth::user() && Auth::user()->role === 'admin')
+    @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
     <div class="col-xl-3 col-md-6">
         <div class="card">
             <div class="card-body">
@@ -137,7 +137,7 @@
         </div><!-- end card -->
     </div>
     <div class="col-xl-3 col-md-6">
-        @if(Auth::user() && Auth::user()->role === 'admin')
+        @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
         <div class="card">
             <div class="card-body">
                 <div class="d-flex">
@@ -216,7 +216,7 @@
     <!-- end col -->
     <div class="col-xl-4">
         <div class="card">
-            @if(Auth::user() && Auth::user()->role === 'admin')
+            @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
             <div class="card-body">
                 <h4 class="card-title mb-4">Latest Transaction</h4>
                 <div class="table-responsive">

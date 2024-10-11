@@ -142,10 +142,10 @@
                                 <a class="dropdown-item" href="{{ route('orders.create') }}">
                                     <i class="ri-add-line align-middle me-1"></i> New Order
                                 </a>
-                                @if(Auth::user() && Auth::user()->role === 'admin')
+                                @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
                                 @endif
-                                @if(Auth::user() && Auth::user()->role === 'admin')
+                                @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('users.create') }}"><i class="ri-add-line align-middle me-1"></i> Create User</a>
                                 @endif
                             </div>
@@ -168,7 +168,7 @@
                                 <a class="dropdown-item" href="{{ route('orders.create') }}">
                                     <i class="ri-add-line align-middle me-1"></i> New Order
                                 </a>
-                                @if(Auth::user() && Auth::user()->role === 'admin')
+                                @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
                                 @endif
                             </div>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class Admin
+class Superadmin
 {
     /**
      * Handle an incoming request.
@@ -20,14 +20,8 @@ class Admin
             $userRole = Auth::user()->role;
     
             // Check the user's role and redirect to the appropriate section
-            if ($userRole === 'admin') {
-                return $next($request); 
-            } elseif ($userRole === 'superadmin') {
-                return $next($request); 
-            } elseif ($userRole === 'office') {
-                return redirect('office');
-            } elseif ($userRole === 'driver') {
-                return redirect('driver'); // Redirect to driver section
+            if ($userRole === 'superadmin') {
+                return $next($request); // Allow access to the request
             } else {
                 // If no role is assigned, log the user out and redirect to login
                 Auth::logout();
