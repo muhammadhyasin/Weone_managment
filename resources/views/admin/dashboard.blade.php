@@ -65,7 +65,7 @@
     </div>
     @endif<!-- end col -->
     <div class="col-xl-3 col-md-6">
-        <div class="card" onclick="window.location='{{ route('orders.pending') }}'">
+        <div class="card card-capsule" onclick="window.location='{{ route('orders.pending') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -83,7 +83,7 @@
         </div><!-- end card -->
     </div><!-- end col -->
     <div class="col-xl-3 col-md-6">
-        <div class="card" onclick="window.location='{{ route('orders.completed') }}'">
+        <div class="card card-capsule" onclick="window.location='{{ route('orders.completed') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -101,7 +101,7 @@
         </div><!-- end card -->
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card " onclick="window.location='{{ route('orders.refunded') }}'">
+        <div class="card card-capsule" onclick="window.location='{{ route('orders.refunded') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -137,7 +137,7 @@
         </div><!-- end card -->
     </div>
     <div class="col-xl-3 col-md-6">
-        <div class="card">
+        <div class="card card-capsule" onclick="window.location='{{ route('pickup.pending') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">
@@ -154,8 +154,16 @@
             </div><!-- end cardbody -->
         </div><!-- end card -->
     </div>
+    <style>
+        .card-capsule:hover {
+            cursor: pointer; /* Show pointer cursor */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            transition: all 0.2s ease; 
+        }
+    </style>
     <div class="col-xl-3 col-md-6">
-        <div class="card">
+        <div class="card card-capsule" onclick="window.location='{{ route('pickup.completed') }}'">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="flex-grow-1">

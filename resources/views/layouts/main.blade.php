@@ -175,6 +175,14 @@
                                 @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
                                 @endif
+                                <a class="dropdown-item" href="{{ route('create.pickup') }}">
+                                    <i class="ri-add-line align-middle me-1"></i> New Pickup
+                                </a>
+                                @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
+                                <a class="dropdown-item" href="{{ route('users.create') }}">
+                                    <i class="ri-add-line align-middle me-1"></i> Add User
+                                </a>
+                                @endif
                             </div>
                         </div>
                         
