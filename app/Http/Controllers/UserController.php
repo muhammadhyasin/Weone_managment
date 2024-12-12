@@ -45,6 +45,7 @@ class UserController extends Controller
             'role' => 'required|string',
             // Add any additional fields you want to validate, e.g., password
         ]);
+        Log::info('Validated Data: ', $validatedData);
 
         // Fill the user model with validated data
         $user->fill($validatedData);
@@ -58,7 +59,7 @@ class UserController extends Controller
         $user->save();
 
         // Redirect back to the user list or the edit form with a success message
-        return redirect()->route('user.index')->with('status', 'User updated successfully!');
+        return redirect()->route('users.index')->with('status', 'User updated successfully!');
     }
 
 

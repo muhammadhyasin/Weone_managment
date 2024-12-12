@@ -6,6 +6,7 @@ use App\Models\Log;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Order;
+use App\Models\Pickup;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -33,6 +34,11 @@ class OrderController extends Controller
                     ->take(10)
                     ->get();
 
+        $pickups = Pickup::whereBetween('created_at', [$startDate, $endDate])
+                    ->orderBy($sortField, $sortOrder)
+                    ->take(10)
+                    ->get();
+
         $revenu = Revenue::whereBetween('created_at', [$startDate, $endDate])
                         ->orderBy($sortField, $sortOrder)
                         ->take(10)
@@ -50,10 +56,16 @@ class OrderController extends Controller
                                     ->where('order_status', 'cancelled')->count();
         $totalExpenses = \App\Models\Expense::whereBetween('created_at', [$startDate, $endDate])->sum('amount');
 
+        $pendingPickupsCount = Pickup::whereBetween('created_at', [$startDate, $endDate])
+                                ->where('pickup_status', 'pending')->count();
+        $CompletedPickupsCount = Pickup::whereBetween('created_at', [$startDate, $endDate])
+                                ->where('pickup_status', 'completed')->count();
+
         // Pass the filtered and sorted data to the view
         return view('admin.dashboard', compact(
             'orders', 'revenu', 'totalRevenue', 'pendingOrdersCount', 'CompletedOrdersCount', 
-            'totalExpenses', 'RefundedOrdersCount', 'CancelledOrdersCount', 'startDate', 'endDate', 'sortField', 'sortOrder'
+            'totalExpenses', 'RefundedOrdersCount', 'CancelledOrdersCount', 'startDate', 'endDate', 'sortField', 'sortOrder','pendingPickupsCount', 
+        'CompletedPickupsCount', 'pickups'
         ));
     }
 

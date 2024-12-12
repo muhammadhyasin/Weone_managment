@@ -137,6 +137,42 @@
         </div><!-- end card -->
     </div>
     <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-truncate font-size-14 mb-2">Pending Pickup</p>
+                        <h4 class="mb-2">{{ $pendingPickupsCount }}</h4>
+                        {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p> --}}
+                    </div>
+                    <div class="avatar-sm">
+                        <span class="avatar-title bg-light text-primary rounded-3">
+                            <i class="ri-shopping-bag-2-line font-size-24 text-warning"></i>  
+                        </span>
+                    </div>
+                </div>                                              
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="flex-grow-1">
+                        <p class="text-truncate font-size-14 mb-2">Completed Pickups </p>
+                        <h4 class="mb-2">{{ $CompletedPickupsCount }}</h4>
+                        {{-- <p class="text-muted mb-0"><span class="text-success fw-bold font-size-12 me-2"><i class="ri-arrow-right-up-line me-1 align-middle"></i>16.2%</span>from previous period</p> --}}
+                    </div>
+                    <div class="avatar-sm">
+                        <span class="avatar-title bg-light text-primary rounded-3">
+                            <i class="ri-shopping-bag-2-line font-size-24 text-success"></i>  
+                        </span>
+                    </div>
+                </div>                                              
+            </div><!-- end cardbody -->
+        </div><!-- end card -->
+    </div>
+    <div class="col-xl-3 col-md-6">
         @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
         <div class="card">
             <div class="card-body">
@@ -158,58 +194,105 @@
     </div><!-- end col -->
 </div><!-- end row -->
 <div class="row">
-    <div class="col-xl-8">
+    <div class="col-xl-6">
         <div class="card">
             <div class="card-body">
-                
-
                 <h4 class="card-title mb-4">Latest Orders</h4>
-
-<div class="table-responsive">
-    <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
-        <thead class="table-light">
-            <tr>
-                <th>Product No</th>
-                <th>Item Name</th>
-                <th>Customer Name</th>
-                <th>Status</th>
-                <th>Delivery Date</th>
-                <th style="width: 120px;">Amount</th>
-            </tr>
-        </thead><!-- end thead -->
-        <tbody>
-            @foreach($orders as $order)
-                <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
-                    <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
-                    <td>{{ $order->product_name }}</td>
-                    <td>{{ $order->customer_name }}</td>
-                    <td>
-                        <div class="font-size-13">
-                            @php
-                                // Determine the color class based on order status
-                                $statusColor = 'text-warning'; // default yellow for pending
-                                if ($order->order_status === 'Completed') {
-                                    $statusColor = 'text-success'; // green for completed
-                                } elseif ($order->order_status === 'refunded') {
-                                    $statusColor = 'text-danger'; // red for cancelled
-                                }
-                                elseif ($order->order_status === 'Cancelled') {
-                                    $statusColor = 'text-danger'; // red for cancelled
-                                }
-                            @endphp
-                            <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
-                            {{ ucfirst($order->order_status) }}
-                        </div>
-                    </td>
-                    <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
-                    <td>£{{ number_format($order->price, 2) }}</td>
-                </tr>
-            @endforeach
-        </tbody><!-- end tbody -->
-    </table>
-    <!-- end table -->
-</div>
-
+                    <div class="table-responsive">
+                        <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product No</th>
+                                    <th>Item Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Status</th>
+                                    <th>Delivery Date</th>
+                                    <th style="width: 120px;">Amount</th>
+                                </tr>
+                            </thead><!-- end thead -->
+                            <tbody>
+                                @foreach($orders as $order)
+                                    <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                                        <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
+                                        <td>{{ $order->product_name }}</td>
+                                        <td>{{ $order->customer_name }}</td>
+                                        <td>
+                                            <div class="font-size-13">
+                                                @php
+                                                    // Determine the color class based on order status
+                                                    $statusColor = 'text-warning'; // default yellow for pending
+                                                    if ($order->order_status === 'Completed') {
+                                                        $statusColor = 'text-success'; // green for completed
+                                                    } elseif ($order->order_status === 'refunded') {
+                                                        $statusColor = 'text-danger'; // red for cancelled
+                                                    }
+                                                    elseif ($order->order_status === 'Cancelled') {
+                                                        $statusColor = 'text-danger'; // red for cancelled
+                                                    }
+                                                @endphp
+                                                <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
+                                                {{ ucfirst($order->order_status) }}
+                                            </div>
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
+                                        <td>£{{ number_format($order->price, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody><!-- end tbody -->
+                        </table>
+                        <!-- end table -->
+                    </div>
+            </div><!-- end card -->
+        </div><!-- end card -->
+    </div>
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Latest Pickups</h4>
+                    <div class="table-responsive">
+                        <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product No</th>
+                                    <th>Item Name</th>
+                                    <th>Customer Name</th>
+                                    <th>Status</th>
+                                    <th>Pickup Date</th>
+                                    <th style="width: 120px;">Amount</th>
+                                </tr>
+                            </thead><!-- end thead -->
+                            <tbody>
+                                @foreach($pickups as $order)
+                                    <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                                        <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
+                                        <td>{{ $order->product_name }}</td>
+                                        <td>{{ $order->customer_name }}</td>
+                                        <td>
+                                            <div class="font-size-13">
+                                                @php
+                                                    // Determine the color class based on order status
+                                                    $statusColor = 'text-warning'; // default yellow for pending
+                                                    if ($order->pickup_status === 'Completed') {
+                                                        $statusColor = 'text-success'; // green for completed
+                                                    } elseif ($order->pickup_status === 'refunded') {
+                                                        $statusColor = 'text-danger'; // red for cancelled
+                                                    }
+                                                    elseif ($order->pickup_status === 'Cancelled') {
+                                                        $statusColor = 'text-danger'; // red for cancelled
+                                                    }
+                                                @endphp
+                                                <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
+                                                {{ ucfirst($order->pickup_status) }}
+                                            </div>
+                                        </td>
+                                        <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
+                                        <td>£{{ number_format($order->price, 2) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody><!-- end tbody -->
+                        </table>
+                        <!-- end table -->
+                    </div>
             </div><!-- end card -->
         </div><!-- end card -->
     </div>
@@ -250,15 +333,11 @@
                                     <td>£{{ number_format($revenues->amount, 2) }}</td>
                                 </tr>
                             @endforeach
-                        </tbody><!-- end tbody -->
-                        
+                        </tbody><!-- end tbody -->  
                     </table>
                     <!-- end table -->
                 </div>
-                
                 <!-- end row -->
-
-                
             </div>
         </div><!-- end card -->
         @endif

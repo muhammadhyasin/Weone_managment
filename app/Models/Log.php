@@ -12,6 +12,7 @@ class Log extends Model
         'order_id',
         'user_id',
         'action',
+        'pickup_id',
     ];
 
 

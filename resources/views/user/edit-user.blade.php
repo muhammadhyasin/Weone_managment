@@ -83,19 +83,19 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
                             <select id="role" class="form-control select2-search-disable" name="role" required>
-                                <option value="">Select Role</option>
-                                <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="officer" {{ old('role', $user->role) == 'officer' ? 'selected' : '' }}>Officer</option>
-                                <option value="driver" {{ old('role', $user->role) == 'driver' ? 'selected' : '' }}>Driver</option>
-                            </select>
+                            <option value="">Select Role</option>
+                            <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="officer" {{ old('role', $user->role) == 'officer' ? 'selected' : '' }}>Officer</option>
+                            <option value="driver" {{ old('role', $user->role) == 'driver' ? 'selected' : '' }}>Driver</option>
+                        </select>
                             @error('payment_status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                         </div>
-                    </div>
+                        </div>
                    
                     <div>
                         <button class="btn btn-primary" type="submit">Save</button>

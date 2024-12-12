@@ -142,12 +142,16 @@
                                 <a class="dropdown-item" href="{{ route('orders.create') }}">
                                     <i class="ri-add-line align-middle me-1"></i> New Order
                                 </a>
+                                <a class="dropdown-item" href="{{ route('create.pickup') }}">
+                                    <i class="ri-add-line align-middle me-1"></i> New Pickup
+                                </a>
                                 @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('expense.create') }}"><i class="ri-add-line align-middle me-1"></i> New Expense</a>
                                 @endif
                                 @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                                 <a class="dropdown-item d-block" href="{{ route('users.create') }}"><i class="ri-add-line align-middle me-1"></i> Create User</a>
                                 @endif
+                                
                             </div>
                         </div>
                         
@@ -260,6 +264,17 @@
                                     <li><a href="{{ route('orders.pending') }}">Pending orders</a></li>
                                     <li><a href="{{ route('orders.completed') }}">Completed orders</a></li>
                                     <li><a href="{{ route('orders.refunded') }}">Refunded orders</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="ri-shopping-bag-2-line"></i>
+                                    <span>Pickups</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{{ route('pickup.index') }}">All Pickups</a></li>
+                                    <li><a href="{{ route('pickup.pending') }}">Pending Pickups</a></li>
+                                    <li><a href="{{ route('pickup.completed') }}">Completed orders</a></li>
                                 </ul>
                             </li>
                             <li>
