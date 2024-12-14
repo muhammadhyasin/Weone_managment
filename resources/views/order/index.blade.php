@@ -36,7 +36,9 @@
                         <th>Product No</th>
                         <th>Item Name</th>
                         <th>Customer Name</th>
+                        <th>Zip Code</th>
                         <th>Status</th>
+                        <th>Delivery Time</th>
                         <th>Delivery Date</th>
                         <th style="width: 120px;">Amount</th>
                     </tr>
@@ -49,6 +51,7 @@
                                 <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
                                 <td>{{ $order->product_name }}</td>
                                 <td>{{ $order->customer_name }}</td>
+                                <td>{{ $order->postcode }}</td>
                                 <td>
                                     <div class="font-size-13">
                                         @php
@@ -67,6 +70,7 @@
                                         {{ ucfirst($order->order_status) }}
                                     </div>
                                 </td>
+                                <td>{{ $order->delivery_start_time }}</td>
                                 <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
                                 <td>£{{ number_format($order->price, 2) }}</td>
                             </tr>

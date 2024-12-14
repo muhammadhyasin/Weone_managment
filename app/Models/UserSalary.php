@@ -18,7 +18,12 @@ class UserSalary extends Model
         'joining_date',
     ];
 
-   
+    protected $casts = [
+        'shift_start_time' => 'datetime:H:i',
+        'shift_end_time' => 'datetime:H:i',
+        'joining_date' => 'date:Y-m-d',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

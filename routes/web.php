@@ -60,10 +60,11 @@ Route::post('/registeradd', [RegisteredUserController::class, 'storeadd'])->name
 
 // web.php
 Route::get('/users/{id}', [UserController::class, 'edit'])->name('user.edit');
-Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update'); // For updating user details
+Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::patch('/users-password/{id}', [UserController::class, 'updatePassword'])->name('user.password');
 
 Route::get('/user/{userId}/salary', [UserSalaryController::class, 'edit'])->name('user.salary.edit');
-Route::post('/user/{userId}/salary', [UserSalaryController::class, 'storeOrUpdate'])->name('user.salary.storeOrUpdate');
+Route::post('/user/{userId}/salary-update', [UserSalaryController::class, 'storeOrUpdate'])->name('user.salary.storeOrUpdate');
 
 
 

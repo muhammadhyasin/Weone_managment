@@ -65,7 +65,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="phone_number" class="form-label">Phone Number</label>
-                                <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
+                                <input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">This field is required.</div>
                             </div>
@@ -73,7 +73,7 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="{{ old('address') }}" required>
+                                <input type="text" class="form-control" name="address" id="address" placeholder="Address" value="{{ old('address') }}">
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">This field is required.</div>
                             </div>
@@ -84,7 +84,7 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="postcode" class="form-label">Zip Code</label>
-                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Zip" value="{{ old('postcode') }}" required>
+                                <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Zip" value="{{ old('postcode') }}">
                                 <div class="invalid-feedback">Please provide a valid zip code.</div>
                             </div>
                         </div>
@@ -100,21 +100,21 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="delivery_date" class="form-label">Delivery Date</label>
-                                <input class="form-control" type="date" name="delivery_date" id="delivery_date" value="{{ old('delivery_date') }}" required>
+                                <input class="form-control" type="date" name="delivery_date" id="delivery_date" value="{{ old('delivery_date') }}">
                                 <div class="invalid-feedback">Please select a valid date.</div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="delivery_start_time" class="form-label">Delivery Start Time</label>
-                                <input class="form-control" type="time" name="delivery_start_time" id="delivery_start_time" value="{{ old('delivery_start_time') }}" required>
+                                <input class="form-control" type="time" name="delivery_start_time" id="delivery_start_time" value="{{ old('delivery_start_time') }}">
                                 <div class="invalid-feedback">Please provide a valid time.</div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="delivery_end_time" class="form-label">Delivery End Time</label>
-                                <input class="form-control" type="time" name="delivery_end_time" id="delivery_end_time" value="{{ old('delivery_end_time') }}" required>
+                                <input class="form-control" type="time" name="delivery_end_time" id="delivery_end_time" value="{{ old('delivery_end_time') }}">
                                 <div class="invalid-feedback">Please provide a valid time.</div>
                             </div>
                         </div>
