@@ -11,6 +11,7 @@ use App\Http\Controllers\UserSalaryController;
 use App\Http\Controllers\PickupController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // Routes that require 'auth' middleware
 Route::middleware('auth','checkStatus', 'activity')->group(function () {
@@ -83,6 +84,11 @@ Route::middleware('auth','checkStatus', 'activity')->group(function () {
     Route::get('/pickup-completed', [PickupController::class, 'completedindex'])->name('pickup.completed');
 
     Route::get('/logs', [SuperAdminController::class, 'logindex'])->middleware('superadmin')->name('superlogs.index');
+    Route::post('/logs/clear', [SuperAdminController::class, 'clearLogs'])->name('logs.clear')->middleware('superadmin');
+    Route::get('/logs/download/{file}', function ($file) {
+        return Storage::download($file);
+    })->name('logs.download')->middleware('superadmin');
+    
 
         
 });

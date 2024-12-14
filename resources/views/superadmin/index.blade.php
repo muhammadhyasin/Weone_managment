@@ -3,9 +3,16 @@
 <div class="col-xl-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title mb-4">Latest Log</h4>
+            <h4 class="card-title mb-4">Latest Logs</h4>
+            <form action="{{ route('logs.clear') }}" method="POST" onsubmit="return confirm('Are you sure you want to clear all logs?')">
+                @csrf
+                <button type="submit" class="btn btn-danger">Clear Logs</button>
+            </form>
+            @if(session('backup_file'))
+                <a href="{{ route('logs.download', ['file' => session('backup_file')]) }}" class="btn btn-success mt-2">Download Logs Backup</a>
+            @endif
             <div class="table-responsive">
-                <table class="table table-centered mb-0 align-middle table-hover table-nowrap">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                     <tr>
                         <th>User</th>
