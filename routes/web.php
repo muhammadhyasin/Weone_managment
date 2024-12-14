@@ -9,10 +9,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSalaryController;
 use App\Http\Controllers\PickupController;
+use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
 // Routes that require 'auth' middleware
-Route::middleware('auth','checkStatus')->group(function () {
+Route::middleware('auth','checkStatus', 'activity')->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -80,6 +81,9 @@ Route::middleware('auth','checkStatus')->group(function () {
     Route::get('/pickup-view', [PickupController::class, 'singleindex'])->name('pickup.index');
     Route::get('/pickup-pending', [PickupController::class, 'pendingindex'])->name('pickup.pending');
     Route::get('/pickup-completed', [PickupController::class, 'completedindex'])->name('pickup.completed');
+
+    Route::get('/logs', [SuperAdminController::class, 'logindex'])->middleware('superadmin')->name('superlogs.index');
+
         
 });
 

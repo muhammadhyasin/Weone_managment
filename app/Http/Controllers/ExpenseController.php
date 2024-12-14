@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\Revenue;
+use App\Models\uLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,9 @@ class ExpenseController extends Controller
             'description' => $validatedData['description'],
             'created_by' => Auth::id(),
         ]);
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         // Log the expense as a negative value in the revenue table
         Revenue::create([

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\Pickup;
 use App\Models\Revenue;
+use App\Models\uLog;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -113,6 +114,9 @@ class OrderController extends Controller
 
             // Create the order
             $order = Order::create($validatedData);
+            uLog::record(
+                "updated with data: " . json_encode($request->all())
+            );
 
             // Log the order creation action
             try {
@@ -171,6 +175,9 @@ class OrderController extends Controller
         }
 
         $validatedData['updated_by'] = Auth::id();
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         // Update the order
         $order->update($validatedData);
@@ -242,6 +249,9 @@ class OrderController extends Controller
             'price' => $validatedData['price'], // Negative price value
             'payment_status' => 'refund', // Automatically set payment status to refund
         ]);
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         // Record the refund in the revenues table
         Revenue::create([
@@ -276,48 +286,49 @@ class OrderController extends Controller
         //create order view 
         return view('forms.create-order'); 
     }
-    public function singleindex(Request $request)
+    private function filterOrders(Request $request, $type = null)
     {
-        // indexing all orders 
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $query = Order::query();
 
-        
+        // Apply date filtering
         if ($startDate && $endDate) {
             $query->whereBetween('delivery_date', [$startDate, $endDate]);
         }
 
-        $orders = $query->orderBy('created_at', 'desc')->get();
-        return view('order.index', compact('orders'));
-    }
-    public function pendingindex()
-    {
-       // indexing pending orders 
-        $orders = Order::where('order_status', 'pending')
-                            ->orderBy('created_at', 'desc')
-                            ->get();
+        // Apply type filtering
+        if ($type) {
+            $query->where('order_status', $type);
+        }
 
-        return view('order.index', compact('orders'));
+        return $query->orderBy('created_at', 'desc')->get();
     }
-    public function completedindex()
-    {
-        // indexing completed orders 
-        $orders = Order::where('order_status', 'Completed')
-                            ->orderBy('created_at', 'desc')
-                            ->get();
 
-        return view('order.index', compact('orders'));
-    }
-    public function refundindex()
+    public function singleindex(Request $request)
     {
-        // refund index
-        $orders = Order::where('order_status', 'Refunded')
-                            ->orderBy('created_at', 'desc')
-                            ->get();
-
-        return view('order.index', compact('orders'));
+        $orders = $this->filterOrders($request);
+        return view('order.index', compact('orders'))->with('type', 'all');
     }
+
+    public function pendingindex(Request $request)
+    {
+        $orders = $this->filterOrders($request, 'pending');
+        return view('order.index', compact('orders'))->with('type', 'pending');
+    }
+
+    public function completedindex(Request $request)
+    {
+        $orders = $this->filterOrders($request, 'Completed');
+        return view('order.index', compact('orders'))->with('type', 'completed');
+    }
+
+    public function refundindex(Request $request)
+    {
+        $orders = $this->filterOrders($request, 'refunded');
+        return view('order.index', compact('orders'))->with('type', 'refunded');
+    }
+
     public function showOrderLogs($id)
     {
         // showing the logs of users
@@ -368,7 +379,10 @@ class OrderController extends Controller
             'order_id' => $order->id,
             'user_id' => Auth::id(),
             'action' => "Updated payment status from '{$oldPaymentStatus}' to '{$order->payment_status}' and Revenue record deleted.",
-        ]);        
+        ]);   
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );     
 
         return redirect()->back()->with('status', 'Payment status updated successfully!');
     }

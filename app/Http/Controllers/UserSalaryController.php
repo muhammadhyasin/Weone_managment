@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\uLog;
 use App\Models\UserSalary;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -49,6 +50,9 @@ class UserSalaryController extends Controller
         if ($endTime->lessThanOrEqualTo($startTime)) {
             return back()->withErrors(['shift_end_time' => 'End time must be after start time.']);
         }
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         UserSalary::updateOrCreate(
             ['user_id' => $userId],

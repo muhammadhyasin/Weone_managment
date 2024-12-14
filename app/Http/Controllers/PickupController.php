@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pickup;
 use App\Models\Log;
+use App\Models\uLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,9 @@ class PickupController extends Controller
         $validatedData['pickup_status'] = $request->input('pickup_status', 'pending');
 
         $pickup = Pickup::create($validatedData);
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         Log::create([
             'pickup_id' => $pickup->id,
@@ -94,6 +98,9 @@ class PickupController extends Controller
             $actionParts[] = ucfirst(str_replace('_', ' ', $field)) . ' changed from "' . $change['old'] . '" to "' . $change['new'] . '"';
         }
         $action = 'Updated: ' . implode(', ', $actionParts);
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
 
         // Create the log entry
         Log::create([
@@ -120,39 +127,42 @@ class PickupController extends Controller
         return view('pickup.index', compact('pickups'));
     }
 
-    public function singleindex(Request $request)
+    private function filterPickups(Request $request, $type = null)
     {
-        // Indexing all pickups
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $query = Pickup::query();
 
+        // Apply date filtering
         if ($startDate && $endDate) {
             $query->whereBetween('pickup_date', [$startDate, $endDate]);
         }
 
-        $pickups = $query->orderBy('created_at', 'desc')->get();
-        return view('pickup.index', compact('pickups'));
-    }
+        // Apply type filtering
+        if ($type) {
+            $query->where('pickup_status', $type);
+        }
 
-    public function pendingindex()
+        return $query->orderBy('created_at', 'desc')->get();
+    }
+    public function singleindex(Request $request)
     {
-        // Indexing pending pickups
-        $pickups = Pickup::where('pickup_status', 'pending')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('pickup.index', compact('pickups'));
+        $pickups = $this->filterPickups($request);
+        return view('pickup.index', compact('pickups'))->with('type', 'all');
     }
 
-    public function completedindex()
+    public function pendingindex(Request $request)
     {
-        // Indexing completed pickups
-        $pickups = Pickup::where('pickup_status', 'completed')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('pickup.index', compact('pickups'));
+        $pickups = $this->filterPickups($request, 'pending');
+        return view('pickup.index', compact('pickups'))->with('type', 'pending');
     }
+
+    public function completedindex(Request $request)
+    {
+        $pickups = $this->filterPickups($request, 'completed');
+        return view('pickup.index', compact('pickups'))->with('type', 'completed');
+    }
+
+
 
 }

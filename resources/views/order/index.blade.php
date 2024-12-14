@@ -5,10 +5,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-
                 <h4 class="card-title">Total Orders</h4>
                 <br>
-                <form method="GET" action="{{ route('orders.index') }}">
+                <form method="GET" action="{{ request()->url() }}">
                     <div class="row mb-3">
                         <div class="col-md-2">
                             <label for="start_date">Start Date:</label>
@@ -18,15 +17,23 @@
                             <label for="end_date">End Date:</label>
                             <input type="date" name="end_date" id="end_date" class="form-control" value="{{ request('end_date') }}">
                         </div>
+                        <div class="col-md-2">
+                            <label for="type">Order Type:</label>
+                            <select name="type" id="type" class="form-select" onchange="window.location.href=this.value">
+                                <option value="{{ route('orders.index') }}" {{ $type === 'all' ? 'selected' : '' }}>All</option>
+                                <option value="{{ route('orders.pending') }}" {{ $type === 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="{{ route('orders.completed') }}" {{ $type === 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="{{ route('orders.refunded') }}" {{ $type === 'refunded' ? 'selected' : '' }}>Refunded</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary">Filter</button>
-                            <a href="{{ route('orders.index') }}" class="btn btn-secondary">Reset</a>
+                            <a href="{{ request()->url() }}" class="btn btn-secondary">Reset</a>
                         </div>
                     </div>
-                </form>
-
+                </form>                              
                 <br>
                 
 

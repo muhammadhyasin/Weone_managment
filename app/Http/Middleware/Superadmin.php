@@ -24,8 +24,7 @@ class Superadmin
                 return $next($request); // Allow access to the request
             } else {
                 // If no role is assigned, log the user out and redirect to login
-                Auth::logout();
-                return redirect('/login')->with('error', 'You have been logged out due to missing role.');
+                return response("<script>alert('You are not allowed to perform this operation.'); window.location='/';</script>");
             }
         }
     

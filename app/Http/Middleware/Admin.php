@@ -30,8 +30,7 @@ class Admin
                 return redirect('driver'); // Redirect to driver section
             } else {
                 // If no role is assigned, log the user out and redirect to login
-                Auth::logout();
-                return redirect('/login')->with('error', 'You have been logged out due to missing role.');
+                return response("<script>alert('You are not allowed to perform this operation.'); window.location='/';</script>");
             }
         }
     

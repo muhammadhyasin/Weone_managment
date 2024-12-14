@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\uLog;
 use App\Models\User;
 use App\Models\UserSalary;
 use Carbon\Carbon;
@@ -54,10 +56,15 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|string',
-            'user_status' => 'required|string|in:active,inactive',
+            'user_status' => 'required|integer|in:0,1',
         ]);
         Log::info("Validated data: ", $validatedData);
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
+        $validatedData['account_status'] = (int) $validatedData['user_status'];
 
+        unset($validatedData['user_status']);
         $user->fill($validatedData);
         $user->save();
         Log::info("User updated successfully: ", $user->toArray());
@@ -72,6 +79,9 @@ class UserController extends Controller
         ]);
         $user->password = bcrypt($validatedData['password']);
         $user->save();
+        uLog::record(
+            "updated with data: " . json_encode($request->all())
+        );
         return redirect()->back()->with('status', 'Password updated successfully!');
     }
 
