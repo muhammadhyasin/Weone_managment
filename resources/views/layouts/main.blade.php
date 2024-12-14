@@ -293,27 +293,8 @@
                                 </a>
                             </li>
                             @endif
-
-
-                            @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
-                            <li>
-                                <a href="{{ route('ec2.list') }}" class="waves-effect">
-                                    <i class="ri-server-fill"></i>
-                                    <span>AWS</span>
-                                </a>
-                            </li>
-                            @endif
-                            
-
-                            
                             <li class="menu-title">Pages</li>
-
-                            
-
                             <li class="menu-title">Components</li>
-
-
-
                         </ul>
                     </div>
                     <!-- Sidebar -->
