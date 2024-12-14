@@ -42,11 +42,11 @@
 
                     <tbody>
                         @foreach($pickups as $pickup)
-                            <tr onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">
+                            <tr>
                                 <td><h6 class="mb-0">{{ $pickup->product_item_no }}</h6></td>
-                                <td>{{ $pickup->product_name }}</td>
-                                <td>{{ $pickup->customer_name }}</td>
-                                <td>
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->product_name }}</td>
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->customer_name }}</td>
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">
                                     <div class="font-size-13">
                                         @php
                                             // Determine the color class based on pickup status
@@ -60,9 +60,9 @@
                                         <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
                                         {{ ucfirst($pickup->pickup_status) }}
                                     </div>
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($pickup->pickup_date)->format('d M, Y') }}</td>
-                                <td>£{{ number_format($pickup->price, 2) }}</td>
+                                </td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ \Carbon\Carbon::parse($pickup->pickup_date)->format('d M, Y') }}</td>
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">£{{ number_format($pickup->price, 2) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

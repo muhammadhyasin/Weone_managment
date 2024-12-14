@@ -113,7 +113,7 @@
                     @endif
 
                         <!-- Show the Refund button only if the status is 'completed' -->
-                        @if($order->order_status === 'Completed' && !is_null($order->payment_status) && $order->payment_status !== 'Pending')
+                        @if($order->order_status === 'Completed' && !is_null($order->payment_status) && $order->payment_status !== 'Pending' && ($userRole === 'admin' || $userRole === 'superadmin'))
                         <button type="button" class="btn btn-danger waves-effect waves-light m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Refund</button>
                     @endif
                     

@@ -26,7 +26,7 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="product_item_no" class="form-label">Product Number</label>
-                                <input type="number" class="form-control" name="product_item_no" id="product_item_no" placeholder="Product Number" value="{{ old('product_item_no') }}" required>
+                                <input type="text" class="form-control" name="product_item_no" id="product_item_no" placeholder="Product Number" value="{{ old('product_item_no') }}" required>
                                 <div class="valid-feedback">Looks good!</div>
                                 <div class="invalid-feedback">This field is required.</div>
                             </div>

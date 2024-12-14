@@ -47,12 +47,12 @@
 
                     <tbody>
                         @foreach($orders as $order)
-                            <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
+                            <tr>
                                 <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
-                                <td>{{ \Illuminate\Support\Str::words($order->product_name, 2, '...') }}</td>
-                                <td>{{ $order->customer_name }}</td>
-                                <td>{{ $order->postcode }}</td>
-                                <td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ \Illuminate\Support\Str::words($order->product_name, 2, '...') }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->customer_name }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->postcode }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
                                     <div class="font-size-13">
                                         @php
                                             // Determine the color class based on order status
@@ -70,9 +70,9 @@
                                         {{ ucfirst($order->order_status) }}
                                     </div>
                                 </td>
-                                <td>{{ $order->delivery_start_time }}</td>
-                                <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
-                                <td>£{{ number_format($order->price, 2) }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->delivery_start_time }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">£{{ number_format($order->price, 2) }}</td>
                             </tr>
                         @endforeach
                     </tbody>

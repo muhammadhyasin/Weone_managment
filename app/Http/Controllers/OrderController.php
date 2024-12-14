@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use App\Models\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,7 +55,7 @@ class OrderController extends Controller
                                     ->where('order_status', 'refunded')->count();
         $CancelledOrdersCount = Order::whereBetween('created_at', [$startDate, $endDate])
                                     ->where('order_status', 'cancelled')->count();
-        $totalExpenses = \App\Models\Expense::whereBetween('created_at', [$startDate, $endDate])->sum('amount');
+        $totalExpenses = Expense::whereBetween('created_at', [$startDate, $endDate])->sum('amount');
 
         $pendingPickupsCount = Pickup::whereBetween('created_at', [$startDate, $endDate])
                                 ->where('pickup_status', 'pending')->count();

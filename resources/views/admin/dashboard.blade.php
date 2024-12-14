@@ -270,31 +270,31 @@
                                 </tr>
                             </thead><!-- end thead -->
                             <tbody>
-                                @foreach($pickups as $order)
-                                    <tr onclick="window.location='{{ route('pickup.show', $order->id) }}'" style="cursor: pointer;">
-                                        <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
-                                        <td>{{ $order->product_name }}</td>
-                                        <td>{{ $order->customer_name }}</td>
+                                @foreach($pickups as $pickup)
+                                    <tr onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">
+                                        <td><h6 class="mb-0">{{ $pickup->product_item_no }}</h6></td>
+                                        <td>{{ $pickup->product_name }}</td>
+                                        <td>{{ $pickup->customer_name }}</td>
                                         <td>
                                             <div class="font-size-13">
                                                 @php
-                                                    // Determine the color class based on order status
+                                                    // Determine the color class based on pickup status
                                                     $statusColor = 'text-warning'; // default yellow for pending
-                                                    if ($order->pickup_status === 'Completed') {
+                                                    if ($pickup->pickup_status === 'Completed') {
                                                         $statusColor = 'text-success'; // green for completed
-                                                    } elseif ($order->pickup_status === 'refunded') {
+                                                    } elseif ($pickup->pickup_status === 'refunded') {
                                                         $statusColor = 'text-danger'; // red for cancelled
                                                     }
-                                                    elseif ($order->pickup_status === 'Cancelled') {
+                                                    elseif ($pickup->pickup_status === 'Cancelled') {
                                                         $statusColor = 'text-danger'; // red for cancelled
                                                     }
                                                 @endphp
                                                 <i class="ri-checkbox-blank-circle-fill font-size-10 {{ $statusColor }} align-middle me-2"></i>
-                                                {{ ucfirst($order->pickup_status) }}
+                                                {{ ucfirst($pickup->pickup_status) }}
                                             </div>
                                         </td>
-                                        <td>{{ \Carbon\Carbon::parse($order->delivery_date)->format('d M, Y') }}</td>
-                                        <td>£{{ number_format($order->price, 2) }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($pickup->pickup_date)->format('d M, Y') }}</td>
+                                        <td>£{{ number_format($pickup->price, 2) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody><!-- end tbody -->
