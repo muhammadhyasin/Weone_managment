@@ -108,7 +108,7 @@ class OrderController extends Controller
         try {
             // Set the creator ID and default order status
             $validatedData['created_by'] = Auth::id();
-            $validatedData['order_status'] = $request->input('order_status', 'pending');
+            $validatedData['order_status'] = $request->input('order_status', 'Pending');
 
             // Create the order
             $order = Order::create($validatedData);
@@ -163,7 +163,7 @@ class OrderController extends Controller
         // Set order status based on payment status
         if ($validatedData['payment_status'] === 'Completed') {
             $validatedData['order_status'] = 'Completed';
-        } elseif ($validatedData['payment_status'] === 'pending') {
+        } elseif ($validatedData['payment_status'] === 'Pending') {
             $validatedData['order_status'] = 'Pending';
         }elseif ($validatedData['payment_status'] === 'Cancelled') {
             $validatedData['order_status'] = 'Cancelled';
