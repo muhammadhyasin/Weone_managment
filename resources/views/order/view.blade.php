@@ -113,7 +113,7 @@
                     @endif
 
                         <!-- Show the Refund button only if the status is 'completed' -->
-                        @if($order->order_status === 'Completed' && !is_null($order->payment_status) && $order->payment_status !== 'pending')
+                        @if($order->order_status === 'Completed' && !is_null($order->payment_status) && $order->payment_status !== 'Pending')
                         <button type="button" class="btn btn-danger waves-effect waves-light m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Refund</button>
                     @endif
                     
@@ -351,7 +351,7 @@
                                                     <div class="mb-3">
                                                         <label for="order_status" class="form-label">Status</label>
                                                         <select id="order_status" class="form-control select2-search-disable" name="order_status" required>
-                                                            <option value="pending">pending</option>
+                                                            <option value="Pending">Pending</option>
                                                             <option value="Cancelled" {{ old('order_status', $order->order_status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                                         </select>
                                                         @error('order_status')
@@ -364,7 +364,7 @@
                                                         <label for="payment_status" class="form-label">Payment Status</label>
                                                         <select id="payment_status" class="form-control select2-search-disable" name="payment_status" required>
                                                             <option value="">Select Status</option>
-                                                            <option value="pending" {{ old('payment_status', $order->payment_status) == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                                            <option value="Pending" {{ old('payment_status', $order->payment_status) == 'Pending' ? 'selected' : '' }}>Pending</option>
                                                             <option value="Cancelled" {{ old('payment_status', $order->payment_status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                                             <option value="Completed" {{ old('payment_status', $order->payment_status) == 'Completed' ? 'selected' : '' }}>Completed</option>
                                                         </select>
