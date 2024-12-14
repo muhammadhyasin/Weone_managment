@@ -92,6 +92,16 @@
 
 
     </head>
+    <script>
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                // If the page was restored from cache, reload it
+                window.location.reload();
+            }
+        });
+    </script>
+    
+    
 
     <body data-topbar="dark">
     
