@@ -10,7 +10,7 @@ class SuperAdminController extends Controller
 {
     public function logindex()
     {
-        $logs = uLog::with('user')->latest()->paginate(20);
+        $logs = uLog::with('user')->latest()->paginate(100);
         return view('superadmin.index', compact('logs'));
     }
     public function clearLogs()
