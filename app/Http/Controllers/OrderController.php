@@ -165,6 +165,8 @@ class OrderController extends Controller
             $validatedData['order_status'] = 'Completed';
         } elseif ($validatedData['payment_status'] === 'pending') {
             $validatedData['order_status'] = 'Pending';
+        }elseif ($validatedData['payment_status'] === 'Cancelled') {
+            $validatedData['order_status'] = 'Cancelled';
         }
 
         $validatedData['updated_by'] = Auth::id();
@@ -344,6 +346,32 @@ class OrderController extends Controller
         // Pass the orders to the view
         return view('order.index', compact('orders'));
     }
+    public function updatePaymentStatus(Request $request, $id)
+    {
+        $request->validate([
+            'payment_status' => 'required|in:Completed,Pending',
+        ]);
+
+        $order = Order::findOrFail($id);
+        $oldPaymentStatus = $order->payment_status;
+        $oldOrderStatus = $order->order_status;
+
+        $order->payment_status = $request->input('payment_status');
+        $order->order_status = $request->input('payment_status');
+        $order->save();
+
+        if ($oldPaymentStatus === 'Completed' && $order->payment_status === 'Pending') {
+            Revenue::where('order_id', $order->id)->where('source', 'orders')->delete();
+        }
+        Log::create([
+            'order_id' => $order->id,
+            'user_id' => Auth::id(),
+            'action' => "Updated payment status from '{$oldPaymentStatus}' to '{$order->payment_status}' and Revenue record deleted.",
+        ]);        
+
+        return redirect()->back()->with('status', 'Payment status updated successfully!');
+    }
+
 
 
 }

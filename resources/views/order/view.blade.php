@@ -5,9 +5,21 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Order Details</h4>
+                <h4 class="card-title">Order Details
+                    @php
+                    $userRole = auth()->user()->role;
+                @endphp
+                
+                @if(($order->order_status === 'Completed' || $order->order_status === 'Cancelled') && ($userRole === 'admin' || $userRole === 'superadmin'))
+                    <a>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#adminEditModal" aria-controls="adminEditModal">
+                           Admin Edit
+                        </button>
+                    </a>
+                @endif
+                
                 <br>
-
+            </h4>
                 <!-- Display validation errors -->
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -72,7 +84,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="order_status" class="form-label">Status</label>
-                        <h5 class="{{ $order->order_status == 'pending' ? 'text-warning' : ($order->order_status == 'Completed' ? 'text-success' : ($order->order_status == 'refunded' || 'Cancelled' ? 'text-danger' : '')) }}">
+                        <h5 class="{{ $order->order_status == 'Pending' ? 'text-warning' : ($order->order_status == 'Completed' ? 'text-success' : ($order->order_status == 'refunded' || 'Cancelled' ? 'text-danger' : '')) }}">
                             {{ ucfirst($order->order_status) }}
                         </h5>
                     </div>
@@ -133,6 +145,39 @@
                     </div>
                 </div>
                 </div>
+                <!-- Admin Edit Modal -->
+                <div class="modal fade" id="adminEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="adminEditModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="adminEditModalLabel">Admin Edit - Payment Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('orders.updatePaymentStatus', $order->id) }}" method="POST" id="adminEditForm">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <!-- Payment Status Dropdown -->
+                                    <div class="mb-3">
+                                        <label for="payment_status" class="form-label">Payment Status</label>
+                                        <select class="form-select" id="payment_status" name="payment_status" required>
+                                            <option selected disabled>Choose...</option>
+                                            <option value="Completed" {{ $order->payment_status === 'Completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="Pending" {{ $order->payment_status === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="Refunded" {{ $order->payment_status === 'Refunded' ? 'selected' : '' }}>Refunded</option>
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width: 50vw;">
                     <div class="offcanvas-header">
                       <h5 id="offcanvasRightLabel">Edit Order Details</h5>
