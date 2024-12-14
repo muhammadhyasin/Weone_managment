@@ -121,7 +121,7 @@ class OrderController extends Controller
             // Log the order creation action
             try {
                 // Log the order creation action
-                Log::create([
+               Log::record([
                     'order_id' => $order->id, 
                     'user_id' => Auth::id(),
                     'action' => 'Created the order',
@@ -202,7 +202,7 @@ class OrderController extends Controller
         $action = 'Updated : ' . implode(', ', $actionParts);
 
         // Create the log entry
-        Log::create([
+       Log::record([
             'order_id' => $order->id,
             'user_id' => Auth::id(),
             'action' => $action,
@@ -264,7 +264,7 @@ class OrderController extends Controller
         $action = 'Refunded order. Old status: "' . $oldValues['order_status'] . '" changed to: "' . $validatedData['order_status'] . '". Refund amount: "' . $validatedData['price'] . '".';
 
         // Create the log entry
-        Log::create([
+       Log::record([
             'order_id' => $order->id,
             'user_id' => Auth::id(),
             'action' => $action,
@@ -375,7 +375,7 @@ class OrderController extends Controller
         if ($oldPaymentStatus === 'Completed' && $order->payment_status === 'Pending') {
             Revenue::where('order_id', $order->id)->where('source', 'orders')->delete();
         }
-        Log::create([
+       Log::record([
             'order_id' => $order->id,
             'user_id' => Auth::id(),
             'action' => "Updated payment status from '{$oldPaymentStatus}' to '{$order->payment_status}' and Revenue record deleted.",

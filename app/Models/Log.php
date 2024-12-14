@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Log extends Model
 {
@@ -14,7 +15,15 @@ class Log extends Model
         'action',
         'pickup_id',
     ];
+    public static function record($data)
+    {
+        // Prevent logging if the user is a superadmin
+        if (Auth::check() && Auth::user()->role === 'superadmin') {
+            return; // Skip logging
+        }
 
+        static::create($data);
+    }
 
 
 

@@ -50,7 +50,7 @@ class PickupController extends Controller
             "updated with data: " . json_encode($request->all())
         );
 
-        Log::create([
+       Log::record([
             'pickup_id' => $pickup->id,
             'user_id' => Auth::id(),
             'action' => 'Created the pickup',
@@ -103,7 +103,7 @@ class PickupController extends Controller
         );
 
         // Create the log entry
-        Log::create([
+       Log::record([
             'pickup_id' => $pickup->id,
             'user_id' => Auth::id(),
             'action' => $action,
