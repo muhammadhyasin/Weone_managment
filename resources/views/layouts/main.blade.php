@@ -285,21 +285,24 @@
                                     <li><a href="{{ route('pickup.completed') }}">Completed orders</a></li>
                                 </ul>
                             </li>
+                            @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                             <li>
                                 <a href="{{ route('users.index') }}" class="waves-effect">
                                     <i class="ri-user-line"></i>
                                     <span>Users</span>
                                 </a>
                             </li>
+                            @endif
 
 
-                           
+                            @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                             <li>
                                 <a href="{{ route('ec2.list') }}" class="waves-effect">
                                     <i class="ri-server-fill"></i>
                                     <span>AWS</span>
                                 </a>
                             </li>
+                            @endif
                             
 
                             

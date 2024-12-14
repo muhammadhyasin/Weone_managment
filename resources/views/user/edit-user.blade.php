@@ -51,8 +51,8 @@
                                 <label for="user_status" class="form-label">Account Status</label>
                                 <select class="form-select" id="user_status" name="user_status" required>
                                     <option selected disabled value="">Choose...</option>
-                                    <option value="active" {{ old('account_status', $user->account_status) == '1' ? 'selected' : '' }}>Active</option>
-                                    <option value="inactive" {{ old('account_status', $user->account_status) == '0' ? 'selected' : '' }}>Inactive</option>
+                                    <option value="1" {{ old('account_status', $user->account_status) == '1' ? 'selected' : '' }}>Active</option>
+                                    <option value="0" {{ old('account_status', $user->account_status) == '0' ? 'selected' : '' }}>Inactive</option>
                                 </select>
                                 <div class="invalid-feedback">Please select a valid Status.</div>
                                 @error('user_status')
