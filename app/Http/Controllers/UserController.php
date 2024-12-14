@@ -6,6 +6,7 @@ use App\Models\UserSalary;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -46,16 +47,20 @@ class UserController extends Controller
     }
     public function update(Request $request, $id)
     {
+        Log::info("Update method called for user ID: {$id}");
         $user = User::findOrFail($id);
+        Log::info("User found: ", $user->toArray());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|string',
             'user_status' => 'required|string|in:active,inactive',
         ]);
+        Log::info("Validated data: ", $validatedData);
 
         $user->fill($validatedData);
         $user->save();
+        Log::info("User updated successfully: ", $user->toArray());
         return redirect()->back()->with('status', 'Profile updated successfully!');
     }
 

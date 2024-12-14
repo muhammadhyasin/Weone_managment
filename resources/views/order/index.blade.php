@@ -49,7 +49,7 @@
                         @foreach($orders as $order)
                             <tr onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">
                                 <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
-                                <td>{{ $order->product_name }}</td>
+                                <td>{{ \Illuminate\Support\Str::words($order->product_name, 2, '...') }}</td>
                                 <td>{{ $order->customer_name }}</td>
                                 <td>{{ $order->postcode }}</td>
                                 <td>
