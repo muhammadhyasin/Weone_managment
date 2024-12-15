@@ -144,10 +144,10 @@
                         <div class="navbar-brand-box">
                             <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="/images/logo.svg" alt="logo-sm" height="10">
+                                    <img src="/images/logo.svg" alt="logo-sm" height="30">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="/images/logo.svg" alt="logo-dark" height="25">
+                                    <img src="/images/logo.svg" alt="logo-dark" height="35">
                                 </span>
                             </a>
 
