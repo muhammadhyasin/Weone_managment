@@ -18,6 +18,7 @@ class Pickup extends Model
         'postcode',
         'pickup_date',
         'pickup_start_time',
+        'pickup_end_time',
         'price',
         'created_by',
         'updated_by',

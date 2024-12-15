@@ -2,6 +2,34 @@
 <html lang="en">
 
     <head>
+        <script>
+            (function () {
+                const theme = sessionStorage.getItem("is_visited") || "dark-mode-switch";
+                const themes = {
+                    "light-mode-switch": {
+                        bootstrap: "/css/bootstrap.min.css",
+                        app: "/css/app.min.css"
+                    },
+                    "dark-mode-switch": {
+                        bootstrap: "/css/bootstrap-dark.min.css",
+                        app: "/css/app-dark.min.css"
+                    },
+                    "rtl-mode-switch": {
+                        bootstrap: "/css/bootstrap-rtl.min.css",
+                        app: "/css/app-rtl.min.css"
+                    }
+                };
+        
+                const selectedTheme = themes[theme];
+                if (selectedTheme) {
+                    document.write(`
+                        <link id="bootstrap-style" href="${selectedTheme.bootstrap}" rel="stylesheet">
+                        <link id="app-style" href="${selectedTheme.app}" rel="stylesheet">
+                    `);
+                }
+            })();
+        </script>
+        
         
         <meta charset="utf-8" />
         <title>Dashboard</title>
@@ -9,32 +37,32 @@
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesdesign" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/images/logo.svg') }}">
+        <link rel="shortcut icon" href="{{ asset('/images/logo.svg') }}">
 
         <!-- jquery.vectormap css -->
-        <link href="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- DataTables -->
-        <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- Responsive datatable examples -->
-        <link href="{{ asset('assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- Bootstrap Css -->
-        <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+       
         
         <!-- Icons Css -->
-        <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
         
         <!-- App Css-->
-        <link href="{{ asset('assets/css/app-dark.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        
 
 
         <!-- PWA manifest -->
         <link rel="manifest" href="{{ asset('manifest.json') }}">
 
         <!-- Full-screen mode for iOS Safari -->
-        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <!-- Theme color for Android's address bar and task switcher -->
@@ -103,7 +131,7 @@
     
     
 
-    <body data-topbar="dark">
+    <body>
     
     <!-- <body data-layout="horizontal" data-topbar="dark"> -->
 
@@ -116,19 +144,19 @@
                         <div class="navbar-brand-box">
                             <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="{ asset('assets/images/logo.svg') }}" alt="logo-sm" height="40">
+                                    <img src="/images/logo.svg" alt="logo-sm" height="25">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets/images/logo.svg') }}" alt="logo-dark" height="35">
+                                    <img src="/images/logo.svg" alt="logo-dark" height="35">
                                 </span>
                             </a>
 
                             <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="{{ asset('assets/images/logo.svg') }}" alt="logo-sm-light" height="35">
+                                    <img src="{{ asset('/images/logo.svg') }}" alt="logo-sm-light" height="35">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets/images/logo.svg') }}" alt="logo-light" height="40">
+                                    <img src="{{ asset('/images/logo.svg') }}" alt="logo-light" height="25">
                                 </span>
                             </a>
                         </div>
@@ -231,7 +259,7 @@
                                     </a>
                                     {{-- <a href="" class="text-reset notification-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-3.jpg"
+                                            <img src="/images/users/avatar-3.jpg"
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <h6 class="mb-1">James Lemire</h6>
@@ -261,7 +289,7 @@
 
                                     <a href="" class="text-reset notification-item">
                                         <div class="d-flex">
-                                            <img src="assets/images/users/avatar-4.jpg"
+                                            <img src="/images/users/avatar-4.jpg"
                                                 class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                             <div class="flex-1">
                                                 <h6 class="mb-1">Salena Layfield</h6>
@@ -287,7 +315,7 @@
                         <div class="dropdown d-inline-block user-dropdown">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="{{ asset('assets/images/users/avatar-1.png') }}"
+                                <img class="rounded-circle header-profile-user" src="{{ asset('/images/users/avatar-1.png') }}"
                                     alt="Header Avatar">
                                 <span class="d-none d-xl-inline-block ms-1">{{ Auth::user()->name }}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -331,7 +359,7 @@
                     <!-- User details -->
                     <div class="user-profile text-center mt-3">
                         <div class="">
-                            <img src="{{ asset('assets/images/users/avatar-1.png') }}" alt="" class="avatar-md rounded-circle">
+                            <img src="{{ asset('/images/users/avatar-1.png') }}" alt="" class="avatar-md rounded-circle">
                         </div>
                         <div class="mt-3">
                             <h4 class="font-size-16 mb-1">{{ Auth::user()->name }}</h4>
@@ -472,7 +500,7 @@
     
             
                     <div class="form-check form-switch mb-3">
-                        <input class="form-check-input theme-choice" type="checkbox" id="dark-mode-switch" data-bsStyle="{{ asset('assets/css/bootstrap-dark.min.css') }}" data-appStyle="{{ asset('assets/css/app-dark.min.css') }}">
+                        <input class="form-check-input theme-choice" type="checkbox" id="dark-mode-switch" data-bsStyle="{{ asset('/css/bootstrap-dark.min.css') }}" data-appStyle="{{ asset('/css/app-dark.min.css') }}">
                         <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
                     </div>
                     
@@ -490,42 +518,42 @@
         <div class="rightbar-overlay"></div>
 
         <!-- JAVASCRIPT -->
-        <script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+        <script src="{{ asset('/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('/libs/metismenu/metisMenu.min.js') }}"></script>
+        <script src="{{ asset('/libs/simplebar/simplebar.min.js') }}"></script>
+        <script src="{{ asset('/libs/node-waves/waves.min.js') }}"></script>
         
         <!-- apexcharts -->
-        <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+        <script src="{{ asset('/libs/apexcharts/apexcharts.min.js') }}"></script>
         
         <!-- jquery.vectormap map -->
-        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
+        <script src="{{ asset('/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+        <script src="{{ asset('/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
         
         <!-- Required datatable js -->
-        <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         
         <!-- Responsive examples -->
-        <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
         
-        <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
+        <script src="{{ asset('/js/pages/dashboard.init.js') }}"></script>
         
         <!-- App js -->
-        <script src="{{ asset('assets/js/app.js') }}"></script>
+        <script src="{{ asset('/js/app.js') }}"></script>
         
 
-        <script src="assets/js/pages/datatables.init.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-        <script src="assets/libs/jszip/jszip.min.js"></script>
-        <script src="assets/libs/pdfmake/build/pdfmake.min.js"></script>
-        <script src="assets/libs/pdfmake/build/vfs_fonts.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
-        <script src="assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+        <script src="/js/pages/datatables.init.js"></script>
+        <script src="/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+        <script src="/libs/jszip/jszip.min.js"></script>
+        <script src="/libs/pdfmake/build/pdfmake.min.js"></script>
+        <script src="/libs/pdfmake/build/vfs_fonts.js"></script>
+        <script src="/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+        <script src="/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+        <script src="/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
         @stack('scripts')
         
     </body>

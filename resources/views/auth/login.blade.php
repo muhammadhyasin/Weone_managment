@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div class="flex flex-col items-center">
-        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" class="h-20 ">
+        <img src="{{ asset('/images/logo.svg') }}" alt="Logo" class="h-20 ">
         <!-- Email Address -->
         </div>
         <div>

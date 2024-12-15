@@ -99,8 +99,15 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="pickup_start_time" class="form-label">Pickup Time</label>
+                                <label for="pickup_start_time" class="form-label">Pickup Start Time</label>
                                 <input class="form-control" type="time" name="pickup_start_time" id="pickup_start_time" value="{{ old('pickup_start_time') }}">
+                                <div class="invalid-feedback">Please provide a valid time.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="pickup_end_time" class="form-label">Pickup End Time</label>
+                                <input class="form-control" type="time" name="pickup_end_time" id="pickup_end_time" value="{{ old('pickup_end_time') }}">
                                 <div class="invalid-feedback">Please provide a valid time.</div>
                             </div>
                         </div>

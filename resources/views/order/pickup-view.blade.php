@@ -63,8 +63,12 @@
                         <h5>{{ $pickup->pickup_date }}</h5>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="pickup_start_time" class="form-label">Estimate Pickup Time </label>
+                        <label for="pickup_start_time" class="form-label">Estimate Pickup Start Time </label>
                         <h5>{{ $pickup->pickup_start_time }}</h5>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="pickup_end_time" class="form-label">Estimate Pickup End Time </label>
+                        <h5>{{ $pickup->pickup_end_time }}</h5>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="pickup_status" class="form-label">Pickup Status</label>
@@ -214,6 +218,16 @@
                                                         <input class="form-control" type="time" name="pickup_start_time" id="pickup_start_time" value="{{ old('pickup_start_time', $pickup->pickup_start_time) }}" required>
                                                         <div class="invalid-feedback">Please provide a valid Time.</div>
                                                         @error('pickup_start_time')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="mb-3">
+                                                        <label for="pickup_end_time" class="form-label">Delivery End Time</label>
+                                                        <input class="form-control" type="time" name="pickup_end_time" id="pickup_end_time" value="{{ old('pickup_end_time', $pickup->pickup_end_time) }}" required>
+                                                        <div class="invalid-feedback">Please provide a valid Time.</div>
+                                                        @error('pickup_end_time')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>

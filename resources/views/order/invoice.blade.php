@@ -9,14 +9,14 @@
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesdesign" name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="/images/favicon.ico">
 
         <!-- Bootstrap Css -->
-        <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
-        <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
     </head>
     <body>
@@ -35,7 +35,7 @@
                         <div class="invoice-title">
                             <h4 class="float-end font-size-16"><strong>Order # {{ $order->id }}</strong></h4>
                             <h3>
-                                <img src="assets/images/logo.svg" alt="logo" height="40"/>
+                                <img src="/images/logo.svg" alt="logo" height="40"/>
                             </h3>
                         </div>
                         <hr>
@@ -151,21 +151,21 @@
 
         // Apply light mode styles dynamically if needed
         // Example: Ensure proper style is loaded
-        document.getElementById('bootstrap-style').href = "{{ asset('assets/css/bootstrap.min.css') }}";
-        document.getElementById('app-style').href = "{{ asset('assets/css/app.min.css') }}";
+        document.getElementById('bootstrap-style').href = "{{ asset('/css/bootstrap.min.css') }}";
+        document.getElementById('app-style').href = "{{ asset('/css/app.min.css') }}";
     });
 </script>
 
 
 
 
-<script src="assets/libs/jquery/jquery.min.js"></script>
-<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="assets/libs/simplebar/simplebar.min.js"></script>
-<script src="assets/libs/node-waves/waves.min.js"></script>
+<script src="/libs/jquery/jquery.min.js"></script>
+<script src="/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/libs/metismenu/metisMenu.min.js"></script>
+<script src="/libs/simplebar/simplebar.min.js"></script>
+<script src="/libs/node-waves/waves.min.js"></script>
 
-<script src="assets/js/app.js"></script>
+<script src="/js/app.js"></script>
 
 </body>
 </html>
