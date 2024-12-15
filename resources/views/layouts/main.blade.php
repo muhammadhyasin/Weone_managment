@@ -199,7 +199,7 @@
                         <div class="dropdown d-inline-block user-dropdown d-lg-none ms-2">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="createDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="createDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="ri-add-line"></i>
                                 </button>
                             </button>
