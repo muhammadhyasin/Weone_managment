@@ -41,8 +41,8 @@
     </div>
 </div>
 
-<div>
-    <button class="btn btn-primary" type="submit">Add Expense</button>
+<div class="col-md-4">
+    <button class="btn btn-primary mb-3" type="submit">Add Expense</button>
 </form>
 </div>
 <div class="table-responsive">
