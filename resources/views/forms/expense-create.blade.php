@@ -66,6 +66,13 @@
                     <td class="text-center fw-bold">£{{ number_format($expense->amount, 2) }}</td>
                     <td class="text-center">{{ $expense->created_by }}</td> <!-- Assuming you have a way to get the creator's name -->
                     <td class="text-center">{{ \Carbon\Carbon::parse($expense->created_at)->format('d M, Y') }}</td>
+                    <td class="text-center">
+                        <form action="{{ route('expense.destroy', $expense->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this expense?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

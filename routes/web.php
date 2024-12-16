@@ -38,6 +38,8 @@ Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
     // Expense routes
     Route::get('/expenses', [ExpenseController::class, 'create'])->name('expense.create');
     Route::post('/expenses-save', [ExpenseController::class, 'store'])->name('expense.store');
+    Route::delete('/expenses/{id}', [ExpenseController::class, 'destroy'])->name('expense.destroy');
+
 
     // Office and driver dashboards
     Route::get('/office', fn() => view('office.dashboard'))->middleware(['verified'])->name('office-dashboard');

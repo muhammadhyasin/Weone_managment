@@ -26,7 +26,7 @@ class ExpenseController extends Controller
     {
         // Validate the request
         $validatedData = $request->validate([
-            'category' => 'required|string|in:diesel,cleaning supplies,maintenance,other',
+            'category' => 'required|string|in:diesel,cleaning_supplies,maintenance,other',
             'amount' => 'required|numeric',
             'description' => 'nullable|string',
         ]);
@@ -50,5 +50,21 @@ class ExpenseController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Expense added successfully.');
+    }
+    public function destroy($id)
+    {
+        // Find the expense by ID
+        $expense = Expense::findOrFail($id);
+
+        // Log the deletion
+        uLog::record("Deleted Expense: " . json_encode($expense));
+
+        // Delete the associated revenue entry if applicable
+        Revenue::where('source', 'expenses')->where('amount', -abs($expense->amount))->delete();
+
+        // Delete the expense
+        $expense->delete();
+
+        return redirect()->back()->with('success', 'Expense deleted successfully.');
     }
 }
