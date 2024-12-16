@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($userRole === 'officer') {
             return redirect()->route('admin.dashboard'); // Redirect to driver dashboard
         } elseif ($userRole === 'driver') {
-            return redirect()->route('admin.dashboard'); // Redirect to officer dashboard
+            return redirect()->route('driver.dashboard'); // Redirect to officer dashboard
         } elseif ($userRole === 'superadmin') {
             return redirect()->route('admin.dashboard'); // Redirect to officer dashboard
         }

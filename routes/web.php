@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
 // Routes that require 'auth' middleware
-Route::middleware('auth','checkStatus', 'activity')->group(function () {
+Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
+
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    
+
+    // Order routes
     Route::get('/', [OrderController::class, 'index'])->middleware(['verified'])->name('admin.dashboard');
     Route::get('/order/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/index', [OrderController::class, 'singleindex'])->name('orders.index');
@@ -31,47 +32,43 @@ Route::middleware('auth','checkStatus', 'activity')->group(function () {
     Route::get('/order-create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/order-store', [OrderController::class, 'store'])->name('orders.store');
     Route::put('/{order}', [OrderController::class, 'update'])->name('orders.update');
-    Route::get('/create', [OrderController::class, 'createview'])->name('create');
-
     Route::put('/orders/{order}/refund', [OrderController::class, 'refund'])->name('orders.refund')->middleware('admin');
     Route::put('/orders/{order}/update-payment-status', [OrderController::class, 'updatePaymentStatus'])->name('orders.updatePaymentStatus');
 
-
-    // Expenses routes
+    // Expense routes
     Route::get('/expenses', [ExpenseController::class, 'create'])->name('expense.create');
     Route::post('/expenses-save', [ExpenseController::class, 'store'])->name('expense.store');
 
-    // Office dashboard
-    Route::get('/office', function () {
-        return view('office.dashboard');
-    })->middleware(['verified'])->name('office-dashboard');
+    // Office and driver dashboards
+    Route::get('/office', fn() => view('office.dashboard'))->middleware(['verified'])->name('office-dashboard');
+    Route::get('/driver', fn() => view('driver.dashboard'))->middleware(['verified'])->name('driver-dashboard');
 
-    // Driver dashboard
-    Route::get('/driver', function () {
-        return view('driver.dashboard');
-    })->middleware(['verified'])->name('driver-dashboard');
-
-    // User routes
-    Route::get('/user', [UserController::class, 'index'])->name('users.index')->middleware('admin');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create')->middleware('admin');
-    Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit')->middleware('admin');
-    Route::post('/registeradd', [RegisteredUserController::class, 'storeadd'])->name('users.add')->middleware('admin');
-    Route::get('/users/{id}', [UserController::class, 'edit'])->name('user.edit')->middleware('admin');
-    Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update')->middleware('admin');
-    Route::patch('/users-password/{id}', [UserController::class, 'updatePassword'])->name('user.password')->middleware('admin');
+    // User management routes
+    Route::middleware('admin')->group(function () {
+        Route::get('/user', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/registeradd', [RegisteredUserController::class, 'storeadd'])->name('users.add');
+        Route::get('/users/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::patch('/user/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::patch('/users-password/{id}', [UserController::class, 'updatePassword'])->name('user.password');
+    });
 
     // User salary routes
-    Route::get('/user/{userId}/salary', [UserSalaryController::class, 'edit'])->name('user.salary.edit')->middleware('admin');
-    Route::post('/user/{userId}/salary-update', [UserSalaryController::class, 'storeOrUpdate'])->name('user.salary.storeOrUpdate')->middleware('admin');
+    Route::middleware('admin')->group(function () {
+        Route::get('/user/{userId}/salary', [UserSalaryController::class, 'edit'])->name('user.salary.edit');
+        Route::post('/user/{userId}/salary-update', [UserSalaryController::class, 'storeOrUpdate'])->name('user.salary.storeOrUpdate');
+    });
 
-    // EC2 routes
-    Route::get('/ec2', [EC2Controller::class, 'listInstances'])->name('ec2.list')->middleware('admin');
-    Route::get('/ec2/start/{id}', [EC2Controller::class, 'startInstance'])->name('ec2.start')->middleware('admin');
-    Route::get('/ec2/stop/{id}', [EC2Controller::class, 'stopInstance'])->name('ec2.stop')->middleware('admin');
-    Route::get('/ec2/rdp/{id}', [EC2Controller::class, 'downloadRdp'])->name('ec2.downloadRdp')->middleware('admin');
-    Route::get('/ec2/instances/status', [EC2Controller::class, 'getInstanceStatuses'])->name('ec2.status')->middleware('admin');
+    // EC2 instance routes
+    Route::middleware('admin')->group(function () {
+        Route::get('/ec2', [EC2Controller::class, 'listInstances'])->name('ec2.list');
+        Route::get('/ec2/start/{id}', [EC2Controller::class, 'startInstance'])->name('ec2.start');
+        Route::get('/ec2/stop/{id}', [EC2Controller::class, 'stopInstance'])->name('ec2.stop');
+        Route::get('/ec2/rdp/{id}', [EC2Controller::class, 'downloadRdp'])->name('ec2.downloadRdp');
+        Route::get('/ec2/instances/status', [EC2Controller::class, 'getInstanceStatuses'])->name('ec2.status');
+    });
 
-    // Pickup routes (prefix maintained without grouping under 'auth')
+    // Pickup routes
     Route::prefix('pickup')->group(function () {
         Route::get('/create', [PickupController::class, 'create'])->name('create.pickup');
         Route::post('/store', [PickupController::class, 'store'])->name('pickup.store');
@@ -83,16 +80,15 @@ Route::middleware('auth','checkStatus', 'activity')->group(function () {
     Route::get('/pickup-pending', [PickupController::class, 'pendingindex'])->name('pickup.pending');
     Route::get('/pickup-completed', [PickupController::class, 'completedindex'])->name('pickup.completed');
 
-    Route::get('/logs', [SuperAdminController::class, 'logindex'])->middleware('superadmin')->name('superlogs.index');
-    Route::post('/logs/clear', [SuperAdminController::class, 'clearLogs'])->name('logs.clear')->middleware('superadmin');
-    Route::get('/logs/download/{file}', function ($file) {
-        return Storage::download($file);
-    })->name('logs.download')->middleware('superadmin');
-    
-
-        
+    // Log routes for superadmins
+    Route::middleware('superadmin')->group(function () {
+        Route::get('/logs', [SuperAdminController::class, 'logindex'])->name('superlogs.index');
+        Route::post('/logs/clear', [SuperAdminController::class, 'clearLogs'])->name('logs.clear');
+        Route::get('/logs/download/{file}', fn($file) => Storage::download($file))->name('logs.download');
+    });
 });
 
 
-
-require __DIR__.'/auth.php';
+Route::fallback(function () {return view('error.index');});
+// Authentication routes
+require __DIR__ . '/auth.php';

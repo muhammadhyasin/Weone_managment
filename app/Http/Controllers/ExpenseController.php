@@ -46,7 +46,7 @@ class ExpenseController extends Controller
         Revenue::create([
             'amount' => -abs($validatedData['amount']), // Store as negative value
             'source' => 'expenses',
-            'order_id' => 1, // Set to null as it's not related to an order
+            'order_id' => null, // Set to null as it's not related to an order
         ]);
 
         return redirect()->back()->with('success', 'Expense added successfully.');
