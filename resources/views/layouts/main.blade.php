@@ -365,7 +365,7 @@
                         <div class="dropdown d-inline-block user-dropdown">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="{{ asset('/images/users/avatar-1.png') }}"
+                                <img class="rounded-circle header-profile-user" src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('/images/users/avatar-1.png') }}"
                                     alt="Header Avatar">
                                 <span class="d-none d-xl-inline-block ms-1">{{ Auth::user()->name }}</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
@@ -400,6 +400,57 @@
                     </div>
                 </div>
             </header>
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                const profilePic = document.getElementById('profile-pic');
+                const profilePicInput = document.getElementById('profile-pic-input');
+
+                // Trigger file input when the image is clicked
+                profilePic.addEventListener('click', function () {
+                    profilePicInput.click();
+                });
+
+                // Preview the selected image
+                profilePicInput.addEventListener('change', function (event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            profilePic.src = e.target.result; // Update the profile picture preview
+                        };
+                        reader.readAsDataURL(file);
+
+                        // Optional: Send the image to the server after selection
+                        uploadProfilePicture(file);
+                    }
+                });
+
+                // Upload the profile picture to the server
+                function uploadProfilePicture(file) {
+                const formData = new FormData();
+                formData.append('profile_picture', file);
+
+                fetch('{{ route("profile.upload") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Profile picture updated successfully:', data.path);
+                    } else {
+                        console.error('Error updating profile picture:', data.error);
+                    }
+                })
+                .catch(error => console.error('Upload error:', error));
+            }
+
+            });
+
+            </script>
 
             <!-- ========== Left Sidebar Start ========== -->
             <div class="vertical-menu">
@@ -408,9 +459,22 @@
 
                     <!-- User details -->
                     <div class="user-profile text-center mt-3">
-                        <div class="">
-                            <img src="{{ asset('/images/users/avatar-1.png') }}" alt="" class="avatar-md rounded-circle">
+                        <div class="position-relative">
+                            <img 
+                                id="profile-pic" 
+                                src="{{ auth()->user()->profile_picture ? asset('storage/' . auth()->user()->profile_picture) : asset('/images/users/avatar-1.png') }}" 
+                                alt="Profile Picture" 
+                                class="avatar-md rounded-circle" 
+                                style="cursor: pointer;"
+                            >
+                            <input 
+                                type="file" 
+                                id="profile-pic-input" 
+                                style="display: none;" 
+                                accept="image/*"
+                            >
                         </div>
+                        
                         <div class="mt-3">
                             <h4 class="font-size-16 mb-1">{{ Auth::user()->name }}</h4>
                             <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>

@@ -57,7 +57,14 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'role' => 'required|string',
             'user_status' => 'required|integer|in:0,1',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        if ($request->hasFile('profile_picture')) {
+            $file = $request->file('profile_picture');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/users'), $filename);
+            $user->profile_picture = 'images/users/' . $filename;
+        }
         Log::info("Validated data: ", $validatedData);
         uLog::record(
             "updated with data: " . json_encode($request->all())

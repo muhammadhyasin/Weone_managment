@@ -92,5 +92,7 @@ Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
 
 Route::post('/update-last-seen', [UserController::class, 'updateLastSeen'])->name('user.updateLastSeen');
 Route::fallback(function () {return view('error.index');});
+Route::post('/profile/update-picture', [ProfileController::class, 'uploadProfilePicture'])->name('profile.upload');
+
 // Authentication routes
 require __DIR__ . '/auth.php';

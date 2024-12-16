@@ -18,10 +18,36 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Edit User Details</h4><br>
-                <form action="{{ route('user.update', $user->id) }}" method="POST" class="needs-validation" novalidate>
+                <form action="{{ route('user.update', $user->id) }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3 text-center">
+                                <label for="profile_picture" class="form-label">Profile Picture</label>
+                                <div class="position-relative">
+                                    <img 
+                                        id="profile-pic-preview" 
+                                        src="{{ $user->profile_picture ? asset($user->profile_picture) : asset('/images/users/avatar-1.png') }}" 
+                                        alt="Profile Picture Preview" 
+                                        class="avatar-lg rounded-circle mb-3"
+                                        style="cursor: pointer;"
+                                    >
+                                    <input 
+                                        type="file" 
+                                        id="profile_picture" 
+                                        name="profile_picture" 
+                                        class="form-control" 
+                                        accept="image/*" 
+                                        onchange="previewProfilePicture(this)" 
+                                        style="display: none;"
+                                    >
+                                </div>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('profile_picture').click();">
+                                    Upload Picture
+                                </button>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
@@ -83,38 +109,6 @@
         </div>
     </div>
     <div class="col-xl-6">
-        <div class="card">
-            <form action="{{ route('user.password', $user->id) }}" method="POST" class="needs-validation" novalidate>
-                @csrf
-                @method('PATCH')
-                <div class="card-body">
-                    <h4 class="card-title">Password</h4>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Change Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                            <div class="invalid-feedback">Please provide a valid Password.</div>
-                            @error('password')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                                placeholder="Confirm Password">
-                            <div class="invalid-feedback">Passwords must match.</div>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit">Save</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Other</h4>
@@ -243,5 +237,56 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-12">
+        <div class="card">
+            <form action="{{ route('user.password', $user->id) }}" method="POST" class="needs-validation" novalidate>
+                @csrf
+                @method('PATCH')
+                <div class="card-body">
+                    <div class="row">
+                        <h4 class="card-title">Password</h4>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Change Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <div class="invalid-feedback">Please provide a valid Password.</div>
+                                @error('password')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                                    placeholder="Confirm Password">
+                                <div class="invalid-feedback">Passwords must match.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 </div>
+@push('scripts')
+<script>
+    function previewProfilePicture(input) {
+        const file = input.files[0];
+        const preview = document.getElementById('profile-pic-preview');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+@endpush
+
 @endsection
