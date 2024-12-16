@@ -85,4 +85,14 @@ class UserController extends Controller
         return redirect()->back()->with('status', 'Password updated successfully!');
     }
 
+    public function updateLastSeen(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->last_seen = now();
+            $user->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
 }

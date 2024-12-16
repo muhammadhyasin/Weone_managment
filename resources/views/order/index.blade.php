@@ -40,6 +40,7 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                     <tr>
+                        <th style="display:none;">Created At</th>
                         <th>Product No</th>
                         <th>Item Name</th>
                         <th>Customer Name</th>
@@ -55,6 +56,7 @@
                     <tbody>
                         @foreach($orders as $order)
                             <tr>
+                                <td style="display:none;">{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</td>
                                 <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
                                 <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ \Illuminate\Support\Str::words($order->product_name, 2, '...') }}</td>
                                 <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->customer_name }}</td>

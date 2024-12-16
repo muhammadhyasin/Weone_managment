@@ -14,6 +14,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Role</th>
+                                <th>Status</th>
                                 <th>Created Date</th>
                                 <th>Edit</th>
                             </tr>
@@ -25,6 +26,17 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->role }}</td>
+                                        <td>
+                                            @if ($user->isOnline())
+                                                <span style="color: green;">Online</span>
+                                            @else
+                                                <span style="color: red;">Offline</span>
+                                                @if ($user->last_seen)
+                                                    <br>
+                                                    <small>Last seen: {{ \Carbon\Carbon::parse($user->last_seen)->setTimezone('Asia/Kolkata')->format('Y-m-d h:i A') }} Indian Standard Time</small>
+                                                @endif
+                                            @endif
+                                        </td>
                                         <td>{{ $user->created_at->format('Y-m-d') }}</td>
                                         <td style="width: 100px">
                                             <a href="{{ route('user.edit', $user->id) }}" class="btn btn-outline-secondary btn-sm" title="Edit">

@@ -3,6 +3,29 @@
 
     <head>
         <script>
+            function updateLastSeen() {
+                fetch('{{ route("user.updateLastSeen") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                }).then(response => {
+                    if (!response.ok) {
+                        console.error('Failed to update last seen');
+                    }
+                }).catch(error => console.error('Error:', error));
+            }
+        
+            // Send the request every 1 minute
+            setInterval(updateLastSeen, 60000);
+        
+            // Send the request when the page loads
+            updateLastSeen();
+        </script>
+        
+        <script>
             (function () {
                 const theme = sessionStorage.getItem("is_visited") || "dark-mode-switch";
                 const themes = {

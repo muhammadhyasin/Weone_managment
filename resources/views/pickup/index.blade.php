@@ -38,6 +38,7 @@
                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                     <tr>
+                        <th style="display:none;">Created At</th>
                         <th>Product No</th>
                         <th>Item Name</th>
                         <th>Customer Name</th>
@@ -50,6 +51,7 @@
                     <tbody>
                         @foreach($pickups as $pickup)
                             <tr>
+                                <td style="display:none;">{{ \Carbon\Carbon::parse($pickup->created_at)->format('d M, Y') }}</td>
                                 <td><h6 class="mb-0">{{ $pickup->product_item_no }}</h6></td>
                                 <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->product_name }}</td>
                                 <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->customer_name }}</td>

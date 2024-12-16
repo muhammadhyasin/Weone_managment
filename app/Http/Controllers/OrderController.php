@@ -286,24 +286,29 @@ class OrderController extends Controller
         //create order view 
         return view('forms.create-order'); 
     }
-    private function filterOrders(Request $request, $type = null)
+    protected function filterOrders(Request $request, $status = null)
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+
         $query = Order::query();
 
-        // Apply date filtering
+
+        if ($status) {
+            $query->where('order_status', $status);
+        }
+
+        // Filter by date range if provided
         if ($startDate && $endDate) {
-            $query->whereBetween('delivery_date', [$startDate, $endDate]);
+            $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
-        // Apply type filtering
-        if ($type) {
-            $query->where('order_status', $type);
-        }
+        // Sort orders by creation date (descending)
+        $query->orderBy('created_at', 'desc');
 
-        return $query->orderBy('created_at', 'desc')->get();
+        return $query->get();
     }
+
 
     public function singleindex(Request $request)
     {

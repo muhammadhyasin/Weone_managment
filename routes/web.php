@@ -90,7 +90,7 @@ Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
     });
 });
 
-
+Route::post('/update-last-seen', [UserController::class, 'updateLastSeen'])->name('user.updateLastSeen');
 Route::fallback(function () {return view('error.index');});
 // Authentication routes
 require __DIR__ . '/auth.php';
