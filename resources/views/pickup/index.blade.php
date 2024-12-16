@@ -52,7 +52,7 @@
                         @foreach($pickups as $pickup)
                             <tr>
                                 <td style="display:none;">{{ \Carbon\Carbon::parse($pickup->created_at)->format('d M, Y') }}</td>
-                                <td><h6 class="mb-0">{{ $pickup->product_item_no }}</h6></td>
+                                <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;"><h6 class="mb-0">{{ $pickup->product_item_no }}</h6></td>
                                 <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->product_name }}</td>
                                 <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">{{ $pickup->customer_name }}</td>
                                 <td onclick="window.location='{{ route('pickup.show', $pickup->id) }}'" style="cursor: pointer;">

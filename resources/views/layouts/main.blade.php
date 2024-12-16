@@ -3,6 +3,34 @@
 
     <head>
         <script>
+            function updateTime() {
+                const indianTimeElement = document.getElementById('indian-time');
+                const ukTimeElement = document.getElementById('uk-time');
+        
+                // Get current UTC time
+                const now = new Date();
+        
+                // Create options for formatting
+                const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        
+                // Calculate Indian Time (UTC + 5:30)
+                const indianTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+                indianTimeElement.innerHTML = `India: ${indianTime.toLocaleTimeString('en-US', options)}`;
+        
+                // Calculate UK Time (UTC + 0)
+                const ukTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }));
+                ukTimeElement.innerHTML = `UK: ${ukTime.toLocaleTimeString('en-US', options)}`;
+            }
+        
+            // Update the time every second
+            setInterval(updateTime, 1000);
+        
+            // Initial call to display time immediately
+            updateTime();
+        </script>
+        
+        
+        <script>
             function updateLastSeen() {
                 fetch('{{ route("user.updateLastSeen") }}', {
                     method: 'POST',
@@ -187,7 +215,6 @@
                         <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                             <i class="ri-menu-2-line align-middle"></i>
                         </button>
-
                         <!-- App Search-->
                         <div class="dropdown d-inline-block user-dropdown d-none d-lg-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -387,6 +414,8 @@
                         <div class="mt-3">
                             <h4 class="font-size-16 mb-1">{{ Auth::user()->name }}</h4>
                             <span class="text-muted"><i class="ri-record-circle-line align-middle font-size-14 text-success"></i> Online</span>
+                            <small><p id="indian-time" class="mb-sm-0"></p></small>
+                            <small><p id="uk-time" class="mb-sm-0"></p></small>
                         </div>
                     </div>
 

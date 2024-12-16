@@ -57,7 +57,7 @@
                         @foreach($orders as $order)
                             <tr>
                                 <td style="display:none;">{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</td>
-                                <td><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
+                                <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;"><h6 class="mb-0">{{ $order->product_item_no }}</h6></td>
                                 <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ \Illuminate\Support\Str::words($order->product_name, 2, '...') }}</td>
                                 <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->customer_name }}</td>
                                 <td onclick="window.location='{{ route('orders.show', $order->id) }}'" style="cursor: pointer;">{{ $order->postcode }}</td>
