@@ -293,21 +293,28 @@ class OrderController extends Controller
 
         $query = Order::query();
 
-
+        // Filter by status if provided
         if ($status) {
             $query->where('order_status', $status);
         }
 
-        // Filter by date range if provided
-        if ($startDate && $endDate) {
-            $query->whereBetween('delivery_date', [$startDate, $endDate]);
+        // Filter by date
+        if ($startDate) {
+            if ($endDate && $startDate !== $endDate) {
+                // Both start_date and end_date are provided and different
+                $query->whereBetween('delivery_date', [$startDate, $endDate]);
+            } else {
+                // Either only start_date is provided or both are the same
+                $query->whereDate('delivery_date', $startDate);
+            }
         }
 
-        // Sort orders by creation date (descending)
+        // Sort orders by delivery date (descending)
         $query->orderBy('delivery_date', 'desc');
 
         return $query->get();
     }
+
 
 
     public function singleindex(Request $request)
