@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use App\Models\Pickup;
 use App\Models\Log;
+use App\Models\Revenue;
 use App\Models\uLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -77,13 +79,33 @@ class PickupController extends Controller
             'pickup_status' => 'nullable|string|max:50',
             'description' => 'nullable',
         ]);
-
+    
         $validatedData['updated_by'] = Auth::id();
-
         $validatedData['pickup_start_time'] = Carbon::parse($validatedData['pickup_start_time'])->format('H:i');
-
+    
+        // Update pickup details
         $pickup->update($validatedData);
-
+    
+        // Check if the pickup status was updated to "Completed"
+        if (
+            $validatedData['pickup_status'] === 'Completed' &&
+            $oldValues['pickup_status'] !== 'Completed'
+        ) {
+            // Add negative revenue for completed pickups
+            Revenue::create([
+                'amount' => -abs($pickup->price), // Ensure the amount is negative
+                'source' => 'pickups',
+                'pickup_id' => $pickup->id,
+            ]);
+            Expense::create([
+                'category' => 'Pickup',
+                'amount' => $pickup->price,
+                'description' => 'Pickup for product item no: ' . $pickup->product_item_no,
+                'created_by' => Auth::id(),
+            ]);
+        }
+    
+        // Log the changes
         $changes = [];
         foreach ($validatedData as $key => $value) {
             if ($oldValues[$key] != $value) {
@@ -93,8 +115,7 @@ class PickupController extends Controller
                 ];
             }
         }
-
-        // Prepare the log action string in a readable format
+    
         $actionParts = [];
         foreach ($changes as $field => $change) {
             $actionParts[] = ucfirst(str_replace('_', ' ', $field)) . ' changed from "' . $change['old'] . '" to "' . $change['new'] . '"';
@@ -103,17 +124,16 @@ class PickupController extends Controller
         uLog::record(
             "updated with data: " . json_encode($request->all())
         );
-
-        // Create the log entry
-       Log::record([
+    
+        Log::record([
             'pickup_id' => $pickup->id,
             'user_id' => Auth::id(),
             'action' => $action,
         ]);
-
+    
         return redirect()->back()->with('success', 'Pickup updated successfully.');
     }
-
+    
 
     public function filterByDateRange(Request $request)
     {
@@ -136,8 +156,14 @@ class PickupController extends Controller
         $query = Pickup::query();
 
         // Apply date filtering
-        if ($startDate && $endDate) {
-            $query->whereBetween('pickup_date', [$startDate, $endDate]);
+        if ($startDate) {
+            if ($endDate && $startDate !== $endDate) {
+                // Both start_date and end_date are provided and different
+                $query->whereBetween('pickup_date', [$startDate, $endDate]);
+            } else {
+                // Either only start_date is provided or both dates are the same
+                $query->whereDate('pickup_date', $startDate);
+            }
         }
 
         // Apply type filtering
@@ -145,8 +171,10 @@ class PickupController extends Controller
             $query->where('pickup_status', $type);
         }
 
+        // Order by creation date
         return $query->orderBy('created_at', 'desc')->get();
     }
+
     public function singleindex(Request $request)
     {
         $pickups = $this->filterPickups($request);

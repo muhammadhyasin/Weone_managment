@@ -78,7 +78,7 @@
                     </div>
                     
                     <div>
-                        <a href="{{ route('orders.index') }}" class="btn btn-secondary">Back to Orders</a>
+                        <a href="{{ route('pickup.index') }}" class="btn btn-secondary">Back to Pickup</a>
                         @if($pickup->pickup_status !== 'refunded' && $pickup->pickup_status !== 'Completed' && $pickup->pickup_status !== 'Cancelled')
                                 <a>
                                     <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit Orders</button>
