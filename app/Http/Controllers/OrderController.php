@@ -300,11 +300,11 @@ class OrderController extends Controller
 
         // Filter by date range if provided
         if ($startDate && $endDate) {
-            $query->whereBetween('created_at', [$startDate, $endDate]);
+            $query->whereBetween('delivery_date', [$startDate, $endDate]);
         }
 
         // Sort orders by creation date (descending)
-        $query->orderBy('created_at', 'desc');
+        $query->orderBy('delivery_date', 'desc');
 
         return $query->get();
     }
