@@ -62,7 +62,7 @@
                                             $statusColor = 'text-warning'; // default yellow for pending
                                             if ($pickup->pickup_status === 'Completed') {
                                                 $statusColor = 'text-success'; // green for completed
-                                            } elseif ($pickup->pickup_status === 'cancelled') {
+                                            } elseif ($pickup->pickup_status === 'Cancelled') {
                                                 $statusColor = 'text-danger'; // red for cancelled
                                             }
                                         @endphp
