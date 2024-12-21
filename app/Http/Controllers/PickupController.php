@@ -101,6 +101,7 @@ class PickupController extends Controller
                 'category' => 'Pickup',
                 'amount' => $pickup->price,
                 'description' => 'Pickup for product item no: ' . $pickup->product_item_no,
+                'pickup_id' => $pickup->id,
                 'created_by' => Auth::id(),
             ]);
         }
@@ -192,7 +193,44 @@ class PickupController extends Controller
         $pickups = $this->filterPickups($request, 'completed');
         return view('pickup.index', compact('pickups'))->with('type', 'completed');
     }
+    public function updatePickupStatus(Request $request, $id)
+    {
+        $request->validate([
+            'pickup_status' => 'required|in:Completed,Pending',
+        ]);
 
+        $pickup = Pickup::findOrFail($id);
+        $oldPickupStatus = $pickup->pickup_status;
 
+        // Update the pickup status
+        $pickup->pickup_status = $request->input('pickup_status');
+        $pickup->save();
 
+        // Remove the revenue record if status changes from Completed to Pending
+        if ($oldPickupStatus === 'Completed' && $pickup->pickup_status === 'Pending') {
+            Revenue::where('pickup_id', $pickup->id)->where('source', 'pickups')->delete();
+
+            Log::record([
+                'pickup_id' => $pickup->id,
+                'user_id' => Auth::id(),
+                'action' => "Updated pickup status from '{$oldPickupStatus}' to '{$pickup->pickup_status}' and Revenue record deleted.",
+            ]);
+
+            uLog::record(
+                "Revenue record removed for pickup ID: {$pickup->id}, status changed back to Pending."
+            );
+        } else {
+            Log::record([
+                'pickup_id' => $pickup->id,
+                'user_id' => Auth::id(),
+                'action' => "Updated pickup status from '{$oldPickupStatus}' to '{$pickup->pickup_status}'.",
+            ]);
+
+            uLog::record(
+                "Pickup status updated with data: " . json_encode($request->all())
+            );
+        }
+
+        return redirect()->back()->with('status', 'Pickup status updated successfully!');
+    }
 }

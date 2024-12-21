@@ -12,7 +12,8 @@ class Expense extends Model
         'category',    // e.g., diesel, cleaning supplies, maintenance, other
         'amount',      // Negative value representing the expense
         'description', // Details of the expense
-        'created_by',  // The user who created the expense entry
+        'created_by',
+        'pickup_id',  // The user who created the expense entry
     ];
 
     // Relationship to User (assuming you have a User model)

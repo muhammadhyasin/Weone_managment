@@ -5,7 +5,21 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Pickup Details</h4>
+                <h4 class="card-title">Pickup Details
+                    @php
+                    $userRole = auth()->user()->role;
+                @endphp
+                
+                @if(($pickup->pickup_status === 'Completed' || $pickup->pickup_status === 'Cancelled') && ($userRole === 'admin' || $userRole === 'superadmin'))
+                    <a>
+                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#adminEditModal" aria-controls="adminEditModal">
+                           Admin Edit
+                        </button>
+                    </a>
+                @endif
+                
+                <br>
+            </h4>
                 <br>
 
                 <!-- Display validation errors -->
@@ -72,7 +86,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="pickup_status" class="form-label">Pickup Status</label>
-                        <h5 class="{{ $pickup->pickup_status == 'pending' ? 'text-warning' : ($pickup->pickup_status == 'Completed' ? 'text-success' : ($pickup->pickup_status == 'refunded' || 'Cancelled' ? 'text-danger' : '')) }}">
+                        <h5 class="{{ $pickup->pickup_status == 'Pending' ? 'text-warning' : ($pickup->pickup_status == 'Completed' ? 'text-success' : ($pickup->pickup_status == 'refunded' || 'Cancelled' ? 'text-danger' : '')) }}">
                             {{ ucfirst($pickup->pickup_status) }}
                         </h5>
                     </div>
@@ -84,6 +98,36 @@
                                     <button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit Orders</button>
                                 </a>
                             @endif    
+                    </div>
+                </div>
+                <div class="modal fade" id="adminEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="adminEditModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="adminEditModalLabel">Admin Edit - Pickup Status</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('pickups.updatePickupStatus', $pickup->id) }}" method="POST" id="adminEditForm">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <!-- Payment Status Dropdown -->
+                                    <div class="mb-3">
+                                        <label for="payment_status" class="form-label">Payment Status</label>
+                                        <select class="form-select" id="pickup_status" name="pickup_status" required>
+                                            <option selected disabled>Choose...</option>
+                                            <option value="Completed" {{ $pickup->pickup_status === 'Completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="Pending" {{ $pickup->pickup_status === 'Pending' ? 'selected' : '' }}>Pending</option>
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                                <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" style="width: 50vw;">
@@ -236,7 +280,7 @@
                                                     <div class="mb-3">
                                                         <label for="pickup_status" class="form-label">Status</label>
                                                         <select id="pickup_status" class="form-control select2-search-disable" name="pickup_status" required>
-                                                            <option value="pending">pending</option>
+                                                            <option value="Pending">Pending</option>
                                                             <option value="Cancelled" {{ old('pickup_status', $pickup->pickup_status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                                             <option value="Completed">Completed</option>
                                                         </select>

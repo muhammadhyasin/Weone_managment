@@ -12,7 +12,8 @@ class Revenue extends Model
     protected $fillable = [
         'amount',     // Revenue amount
         'source',     // Source of the revenue
-        'order_id',   // Associated order ID
+        'order_id',
+        'pickup_id',
     ];
 
     /**
