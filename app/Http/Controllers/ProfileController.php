@@ -62,7 +62,7 @@ class ProfileController extends Controller
     {
         // Validate the uploaded file
         $request->validate([
-            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         // Get the authenticated user

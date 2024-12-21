@@ -56,8 +56,8 @@ class UserController extends Controller
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('images/users'), $filename);
-            $user->profile_picture = 'images/users/' . $filename;
+            $path = $file->storeAs('images/users', $filename, 'public');
+            $user->profile_picture = $path; // This will save the path as 'images/users/filename.ext'
         }
         Log::info("Validated data: ", $validatedData);
         uLog::record(
