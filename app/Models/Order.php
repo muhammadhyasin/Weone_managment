@@ -27,6 +27,8 @@ class Order extends Model
         'payment_status',
         'advance_amount', 
         'description',
+        'card_payment',
+        'cash_payment',
     ];
     public static function countPendingOrders()
     {

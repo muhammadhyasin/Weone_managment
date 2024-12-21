@@ -160,18 +160,44 @@ class OrderController extends Controller
             'price' => 'required|numeric',
             'order_status' => 'nullable|string|max:50',
             'payment_method' => 'nullable',
+            'card_payment' => 'nullable|numeric|min:0',
+            'cash_payment' => 'nullable|numeric|min:0',
             'payment_status' => 'nullable',
             'advance_amount' => 'nullable', 
             'description' => 'nullable',
         ]);
-
-        // Set order status based on payment status
         if ($validatedData['payment_status'] === 'Completed') {
-            $validatedData['order_status'] = 'Completed';
+            // Validate if the payment method is "CashAndCard"
+            if ($validatedData['payment_method'] === 'CashAndCard') {
+                // Ensure both card and cash payments are provided
+                if (is_null($validatedData['card_payment']) || is_null($validatedData['cash_payment'])) {
+                    return back()->withErrors(['payment_method' => 'Both card and cash payment amounts are required for Cash and Card payment method.']);
+                }
+    
+                // Validate if the total paid is equal to or greater than the product price
+                $totalPaid = ($validatedData['advance_amount'] ?? 0) + ($validatedData['card_payment'] ?? 0) + ($validatedData['cash_payment'] ?? 0);
+    
+                if ($totalPaid < $validatedData['price']) {
+                    return back()->withErrors(['payment_status' => 'Total amount paid (Advance + Card + Cash) must be equal to or greater than the product price.']);
+                }
+                if ($totalPaid > $validatedData['price']) {
+                    return back()->withErrors(['payment_status' => 'Total amount paid (Advance + Card + Cash) cannot be greater than the product price.']);
+                }
+    
+                $validatedData['order_status'] = 'Completed'; // Set to 'Completed' if payment is valid
+            } elseif ($validatedData['payment_method'] === 'Card' || $validatedData['payment_method'] === 'Cash') {
+                // If payment method is either Card or Cash, don't validate payment amounts as total payment
+                $validatedData['order_status'] = 'Completed'; // Set to 'Completed'
+            } else {
+                // If payment status is completed but no valid payment method is selected
+                return back()->withErrors(['payment_method' => 'Invalid payment method selected.']);
+            }
         } elseif ($validatedData['payment_status'] === 'Pending') {
             $validatedData['order_status'] = 'Pending';
-        }elseif ($validatedData['payment_status'] === 'Cancelled') {
+        } elseif ($validatedData['payment_status'] === 'Cancelled') {
             $validatedData['order_status'] = 'Cancelled';
+        } else {
+            $validatedData['order_status'] = 'Pending'; // Default to 'Pending' if no payment status is provided
         }
 
         $validatedData['updated_by'] = Auth::id();

@@ -95,6 +95,18 @@
                         <label for="delivery_date" class="form-label">Payment Method</label>
                         <h5>{{ $order->payment_method }}</h5>
                     </div>
+                    
+                    @if ($order->payment_method == 'CashAndCard')
+                        <div class="col-md-4 mb-3">
+                            <label for="cash_payment" class="form-label">Cash Payment</label>
+                            <h5>{{ $order->cash_payment }}</h5>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="card_payment" class="form-label">Card Payment</label>
+                            <h5>{{ $order->card_payment }}</h5>
+                        </div>
+                    @endif
+                    
                     <div class="col-md-4 mb-3">
                         <label for="delivery_start_time" class="form-label">Payment Status</label>
                         <h5>{{ $order->payment_status }} </h5>
@@ -284,7 +296,7 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="advance_amount" class="form-label">Advance Amount</label>
-                                                        <input type="text" class="form-control" name="advance_amount" id="advance_amount" placeholder="Zip" value="{{ old('advance_amount', $order->advance_amount) }}" >
+                                                        <input type="text" class="form-control" name="advance_amount" id="advance_amount" placeholder="Amount" value="{{ old('advance_amount', $order->advance_amount) }}" >
                                                         <div class="invalid-feedback">Please provide amount.</div>
                                                         @error('advance_amount')
                                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -337,16 +349,65 @@
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="payment_method" class="form-label">Payment Method</label>
-                                                        <select id="payment_method" class="form-control select2-search-disable" name="payment_method" required>
-                                                            <option value="">Select Status</option>
+                                                        <select id="payment_method" class="form-control select2-search-disable" name="payment_method" required onchange="togglePaymentFields()">
+                                                            <option value="">Select Payment Method</option>
                                                             <option value="Card" {{ old('payment_method', $order->payment_method) == 'Card' ? 'selected' : '' }}>Card</option>
                                                             <option value="Cash" {{ old('payment_method', $order->payment_method) == 'Cash' ? 'selected' : '' }}>Cash</option>
+                                                            <option value="CashAndCard" {{ old('payment_method', $order->payment_method) == 'CashAndCard' ? 'selected' : '' }}>Cash and Card</option>
                                                         </select>
                                                         @error('payment_method')
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                
+                                                <!-- Card Payment Amount (Hidden initially) -->
+                                                <div id="card_payment_field" class="col-md-4" style="display: none;">
+                                                    <div class="mb-3">
+                                                        <label for="card_payment" class="form-label">Card Payment Amount</label>
+                                                        <input type="number" class="form-control" name="card_payment" id="card_payment" placeholder="Enter Card Payment" value="{{ old('card_payment', $order->card_payment) }}" step="0.01">
+                                                        @error('card_payment')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Cash Payment Amount (Hidden initially) -->
+                                                <div id="cash_payment_field" class="col-md-4" style="display: none;">
+                                                    <div class="mb-3">
+                                                        <label for="cash_payment" class="form-label">Cash Payment Amount</label>
+                                                        <input type="number" class="form-control" name="cash_payment" id="cash_payment" placeholder="Enter Cash Payment" value="{{ old('cash_payment', $order->cash_payment) }}" step="0.01">
+                                                        @error('cash_payment')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                
+                                                @push('scripts')
+                                                <script>
+                                                    // JavaScript to show/hide fields based on the selected payment method
+                                                    function togglePaymentFields() {
+                                                        const paymentMethod = document.getElementById('payment_method').value;
+                                                        const cardField = document.getElementById('card_payment_field');
+                                                        const cashField = document.getElementById('cash_payment_field');
+                                                
+                                                        // If both 'Cash and Card' are selected, show both payment fields
+                                                        if (paymentMethod === 'CashAndCard') {
+                                                            cardField.style.display = 'block'; // Show card payment field
+                                                            cashField.style.display = 'block'; // Show cash payment field
+                                                        } else {
+                                                            // If only 'Card' or 'Cash' is selected, hide both fields
+                                                            cardField.style.display = 'none'; 
+                                                            cashField.style.display = 'none'; 
+                                                        }
+                                                    }
+                                                
+                                                    // Call the function on page load to set the correct state
+                                                    window.onload = togglePaymentFields;
+                                                </script>
+                                                @endpush
+                                                
+                                                
                                                 <div class="col-md-4">
                                                     <div class="mb-3">
                                                         <label for="order_status" class="form-label">Status</label>
