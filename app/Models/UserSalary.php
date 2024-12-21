@@ -13,14 +13,11 @@ class UserSalary extends Model
         'user_id',
         'full_day_salary',
         'half_day_salary',
-        'shift_start_time',
-        'shift_end_time',
+        'shift_id',
         'joining_date',
     ];
 
     protected $casts = [
-        'shift_start_time' => 'datetime:H:i',
-        'shift_end_time' => 'datetime:H:i',
         'joining_date' => 'date:Y-m-d',
     ];
 

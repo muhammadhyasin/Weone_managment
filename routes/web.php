@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSalaryController;
 use App\Http\Controllers\PickupController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
         Route::post('/store', [PickupController::class, 'store'])->name('pickup.store');
         Route::get('/{id}', [PickupController::class, 'show'])->name('pickup.show');
         Route::put('/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
+        Route::put('/{pickup}/update-pickup-status', [PickupController::class, 'updatePickupStatus'])->name('pickups.updatePickupStatus');
     });
 
     Route::get('/pickup-view', [PickupController::class, 'singleindex'])->name('pickup.index');
@@ -87,6 +89,15 @@ Route::middleware(['auth', 'checkStatus', 'activity'])->group(function () {
         Route::get('/logs', [SuperAdminController::class, 'logindex'])->name('superlogs.index');
         Route::post('/logs/clear', [SuperAdminController::class, 'clearLogs'])->name('logs.clear');
         Route::get('/logs/download/{file}', fn($file) => Storage::download($file))->name('logs.download');
+    });
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/shifts', [ShiftController::class, 'index'])->name('shifts.index');
+        Route::get('/shifts/create', [ShiftController::class, 'create'])->name('shifts.create');
+        Route::post('/shifts/store', [ShiftController::class, 'store'])->name('shifts.store');
+        Route::get('/shifts/{id}/edit', [ShiftController::class, 'edit'])->name('shifts.edit');
+        Route::patch('/shifts/{shift}', [ShiftController::class, 'update'])->name('shifts.update');
+        Route::delete('/shifts/{shift}', [ShiftController::class, 'destroy'])->name('shifts.destroy');
     });
 });
 

@@ -64,14 +64,18 @@
                     <td class="text-center">{{ ucfirst($expense->category) }}</td>
                     <td class="text-truncate" style="max-width: 150px;">{{ $expense->description }}</td>
                     <td class="text-center fw-bold">£{{ number_format($expense->amount, 2) }}</td>
-                    <td class="text-center">{{ $expense->created_by }}</td> <!-- Assuming you have a way to get the creator's name -->
+                    <td class="text-center">{{ $expense->creator->name ?? 'Unknown' }}</td> <!-- Assuming you have a way to get the creator's name -->
                     <td class="text-center">{{ \Carbon\Carbon::parse($expense->created_at)->format('d M, Y') }}</td>
                     <td class="text-center">
-                        <form action="{{ route('expense.destroy', $expense->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this expense?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                        @if(strtolower($expense->category) !== 'pickup') <!-- Condition to hide delete button for Pickup -->
+                            <form action="{{ route('expense.destroy', $expense->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this expense?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        @else
+                            <span class="text-muted">N/A</span> <!-- Optional: Placeholder text -->
+                        @endif
                     </td>
                 </tr>
             @endforeach

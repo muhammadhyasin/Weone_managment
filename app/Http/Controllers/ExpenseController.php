@@ -19,7 +19,7 @@ class ExpenseController extends Controller
     public function create()
     {
         //create order view 
-        $expenses = Expense::with('user')->get(); 
+        $expenses = Expense::with('creator')->get();
         return view('forms.expense-create', compact('expenses')); 
     }
     public function store(Request $request)

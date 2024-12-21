@@ -145,75 +145,18 @@
                         <!-- Shift Start Time -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="shift_start_time" class="form-label">Shift Start Time</label>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_start_hour" name="shift_start_hour" required>
-                                            <option selected disabled>Hour</option>
-                                            @for ($i = 1; $i <= 12; $i++)
-                                                <option value="{{ $i }}" {{ old('shift_start_hour', $userSalary->shift_start_hour ?? '') == $i ? 'selected' : '' }}>
-                                                    {{ sprintf('%02d', $i) }}
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_start_minute" name="shift_start_minute" required>
-                                            <option selected disabled>Minute</option>
-                                            @for ($i = 0; $i <= 59; $i++)
-                                                <option value="{{ $i }}" {{ old('shift_start_minute', $userSalary->shift_start_minute ?? '') == $i ? 'selected' : '' }}>
-                                                    {{ sprintf('%02d', $i) }}
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_start_ampm" name="shift_start_ampm" required>
-                                            <option value="AM" {{ old('shift_start_ampm', $userSalary->shift_start_ampm ?? '') == 'AM' ? 'selected' : '' }}>AM</option>
-                                            <option value="PM" {{ old('shift_start_ampm', $userSalary->shift_start_ampm ?? '') == 'PM' ? 'selected' : '' }}>PM</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                @error('shift_start_time')
-                                    <div class="invalid-tooltip">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-    
-                        <!-- Shift End Time -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="shift_end_time" class="form-label">Shift End Time</label>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_end_hour" name="shift_end_hour" required>
-                                            <option selected disabled>Hour</option>
-                                            @for ($i = 1; $i <= 12; $i++)
-                                                <option value="{{ $i }}" {{ old('shift_end_hour', $userSalary->shift_end_hour ?? '') == $i ? 'selected' : '' }}>
-                                                    {{ sprintf('%02d', $i) }}
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_end_minute" name="shift_end_minute" required>
-                                            <option selected disabled>Minute</option>
-                                            @for ($i = 0; $i <= 59; $i++)
-                                                <option value="{{ $i }}" {{ old('shift_end_minute', $userSalary->shift_end_minute ?? '') == $i ? 'selected' : '' }}>
-                                                    {{ sprintf('%02d', $i) }}
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <select class="form-control" id="shift_end_ampm" name="shift_end_ampm" required>
-                                            <option value="AM" {{ old('shift_end_ampm', $userSalary->shift_end_ampm ?? '') == 'AM' ? 'selected' : '' }}>AM</option>
-                                            <option value="PM" {{ old('shift_end_ampm', $userSalary->shift_end_ampm ?? '') == 'PM' ? 'selected' : '' }}>PM</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                @error('shift_end_time')
-                                    <div class="invalid-tooltip">{{ $message }}</div>
+                                <label for="shift_id" class="form-label">Shift</label>
+                                <select class="form-control" id="shift_id" name="shift_id" required>
+                                    <option selected disabled>Select Shift</option>
+                                    @foreach($availableShifts as $shift)
+                                        <option value="{{ $shift->id }}" 
+                                                {{ old('shift_id', $userSalary->shift_id) == $shift->id ? 'selected' : '' }}>
+                                            {{ $shift->name }} ({{ $shift->start_time }} - {{ $shift->end_time }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('shift_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
