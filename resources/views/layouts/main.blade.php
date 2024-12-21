@@ -520,6 +520,7 @@
                                     <li><a href="{{ route('pickup.completed') }}">Completed orders</a></li>
                                 </ul>
                             </li>
+                            <li class="menu-title">Admin</li>
                             @if(Auth::user() && (Auth::user()->role === 'admin' || Auth::user()->role === 'superadmin'))
                             <li>
                                 <a href="{{ route('users.index') }}" class="waves-effect">
@@ -527,7 +528,12 @@
                                     <span>Users</span>
                                 </a>
                             </li>
-                            <li class="menu-title">Admin</li>
+                            <li>
+                                <a href="{{ route('shifts.index') }}" class="waves-effect">
+                                    <i class="mdi mdi-account-clock-outline"></i>
+                                    <span>Shift</span>
+                                </a>
+                            </li>
                             @endif
                             @if(Auth::user() && (Auth::user()->role === 'superadmin'))
                             <li class="menu-title">Superadmin</li>
