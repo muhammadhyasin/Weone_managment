@@ -209,6 +209,7 @@ class PickupController extends Controller
         // Remove the revenue record if status changes from Completed to Pending
         if ($oldPickupStatus === 'Completed' && $pickup->pickup_status === 'Pending') {
             Revenue::where('pickup_id', $pickup->id)->where('source', 'pickups')->delete();
+            Expense::where('pickup_id', $pickup->id)->delete();
 
             Log::record([
                 'pickup_id' => $pickup->id,
